@@ -157,7 +157,12 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle }) {
           {featuredVehicles.map((car) => (
             <div 
               key={car.id} 
-              onClick={() => car.available && setCurrentPage('details')}
+              onClick={() => {
+                if (car.available) {
+                  setSelectedVehicle(car);
+                  setCurrentPage('details');
+                }
+              }}
               className="glass-card rounded-2xl overflow-hidden group cursor-pointer transition-all hover:-translate-y-2"
             >
               <div className="relative aspect-[16/9] overflow-hidden">

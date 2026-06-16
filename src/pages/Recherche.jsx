@@ -64,11 +64,7 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
   const handleAction = (car) => {
     if (car.disabled) return;
     setSelectedVehicle(car);
-    if (car.linkTo === 'details') {
-      setCurrentPage('details');
-    } else {
-      setCurrentPage('reservation');
-    }
+    setCurrentPage('details');
   };
 
   return (
@@ -137,7 +133,10 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
         {fleet.map((car) => (
           <div 
             key={car.id} 
-            className="zebra-stripe rounded-xl overflow-hidden glass-card group transition-all duration-300 hover:border-primary/40"
+            onClick={() => handleAction(car)}
+            className={`zebra-stripe rounded-xl overflow-hidden glass-card group transition-all duration-300 ${
+              car.disabled ? 'cursor-not-allowed' : 'cursor-pointer hover:border-primary/40'
+            }`}
           >
             <div className="flex flex-col md:flex-row">
               <div className="w-full md:w-80 h-52 relative overflow-hidden">
@@ -168,7 +167,7 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
                       </div>
                       <div className="flex items-center gap-1">
                         <span className="material-symbols-outlined text-[20px] text-secondary">group</span>
-                        <span className="text-label-md font-label-md">{car.specs}</span>
+                        <span className="text-label-md font-label-md">{car.specs || '4 places'}</span>
                       </div>
                     </div>
                   </div>
@@ -183,7 +182,7 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
                     </div>
                   </div>
                 </div>
-                <div className="mt-6 flex gap-4">
+                <div className="mt-6 flex gap-4" onClick={(e) => e.stopPropagation()}>
                   {car.disabled ? (
                     <button 
                       className="flex-1 py-3 rounded-lg bg-surface-variant text-on-surface-variant cursor-not-allowed font-label-md" 
@@ -196,7 +195,7 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
                       onClick={() => handleAction(car)}
                       className="flex-1 py-3 rounded-lg bg-primary-container text-on-primary-container font-label-md blue-glow active:scale-95 transition-all"
                     >
-                      Réserver
+                      Détails
                     </button>
                   )}
                   <button className="px-4 py-3 rounded-lg border border-outline-variant text-on-surface-variant hover:text-primary hover:border-primary transition-all active:scale-95 flex items-center">

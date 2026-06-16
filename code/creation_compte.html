@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Apex Car Rental - Inscription</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glass-panel {
+            background: rgba(30, 32, 37, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .electric-glow:focus-within {
+            box-shadow: 0 0 15px rgba(0, 82, 255, 0.3);
+            border-color: #0052ff;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ffb4ab",
+                      "outline": "#8d90a2",
+                      "on-tertiary-container": "#ebdfff",
+                      "inverse-surface": "#e5e2e3",
+                      "on-tertiary": "#3c0090",
+                      "on-error-container": "#ffdad6",
+                      "surface-bright": "#3a393a",
+                      "primary-container": "#0052ff",
+                      "surface-container-lowest": "#0e0e0f",
+                      "secondary-fixed": "#b7eaff",
+                      "background": "#131314",
+                      "surface": "#131314",
+                      "on-background": "#e5e2e3",
+                      "secondary": "#a6e6ff",
+                      "on-secondary-fixed-variant": "#004e60",
+                      "on-surface-variant": "#c3c5d9",
+                      "surface-container-low": "#1c1b1c",
+                      "tertiary-container": "#792eff",
+                      "secondary-container": "#14d1ff",
+                      "surface-dim": "#131314",
+                      "tertiary": "#d1bcff",
+                      "on-tertiary-fixed-variant": "#5700c9",
+                      "on-tertiary-fixed": "#23005b",
+                      "secondary-fixed-dim": "#4cd6ff",
+                      "primary-fixed": "#dde1ff",
+                      "surface-container": "#201f20",
+                      "on-secondary-container": "#00566b",
+                      "on-primary-fixed": "#001452",
+                      "inverse-primary": "#004ced",
+                      "surface-variant": "#353436",
+                      "surface-container-highest": "#353436",
+                      "outline-variant": "#434656",
+                      "inverse-on-surface": "#313031",
+                      "on-primary-container": "#dfe3ff",
+                      "on-secondary-fixed": "#001f28",
+                      "tertiary-fixed": "#e9ddff",
+                      "on-primary-fixed-variant": "#0038b6",
+                      "surface-tint": "#b7c4ff",
+                      "primary-fixed-dim": "#b7c4ff",
+                      "on-secondary": "#003543",
+                      "on-error": "#690005",
+                      "tertiary-fixed-dim": "#d1bcff",
+                      "primary": "#b7c4ff",
+                      "on-surface": "#e5e2e3",
+                      "on-primary": "#002682",
+                      "error-container": "#93000a",
+                      "surface-container-high": "#2a2a2b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "section-gap": "40px",
+                      "gutter": "16px",
+                      "container-margin": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Sora"],
+                      "headline-lg": ["Sora"],
+                      "headline-lg-mobile": ["Sora"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-xl": ["Sora"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden">
+<!-- Top Navigation Bar (Partial usage as requested by JSON: Only Logo/Shell) -->
+<header class="flex justify-between items-center px-container-margin h-16 z-50 fixed top-0 w-full bg-background/80 backdrop-blur-xl border-b border-white/10">
+<div class="flex items-center gap-2">
+<span class="font-headline-lg text-headline-lg text-primary-container tracking-tighter">Apex</span>
+</div>
+<div class="hidden md:flex gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Découvrir</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors" href="#">Aide</a>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center pt-24 pb-12 px-gutter relative">
+<!-- Background Decorative Element -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] bg-primary-container/10 rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-[10%] -left-[5%] w-[400px] h-[400px] bg-secondary-container/5 rounded-full blur-[100px]"></div>
+</div>
+<div class="w-full max-w-md z-10">
+<!-- Sign-up Card -->
+<div class="glass-panel p-8 rounded-xl shadow-2xl relative">
+<div class="mb-8">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Rejoignez l'élite</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Créez votre compte Apex pour une expérience de conduite sans précédent.</p>
+</div>
+<form class="space-y-6" id="signup-form">
+<!-- Full Name -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-outline" for="fullname">Nom Complet</label>
+<div class="electric-glow flex items-center bg-surface-container rounded-lg border border-white/5 px-4 py-3 transition-all duration-300">
+<span class="material-symbols-outlined text-secondary-container mr-3">person</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface placeholder:text-outline/50" id="fullname" name="fullname" placeholder="Jean Dupont" required="" type="text"/>
+</div>
+</div>
+<!-- Email -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-outline" for="email">Adresse Email</label>
+<div class="electric-glow flex items-center bg-surface-container rounded-lg border border-white/5 px-4 py-3 transition-all duration-300">
+<span class="material-symbols-outlined text-secondary-container mr-3">mail</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface placeholder:text-outline/50" id="email" name="email" placeholder="jean.dupont@email.com" required="" type="email"/>
+</div>
+</div>
+<!-- Phone Number -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-outline" for="phone">Numéro de Téléphone</label>
+<div class="electric-glow flex items-center bg-surface-container rounded-lg border border-white/5 px-4 py-3 transition-all duration-300">
+<span class="material-symbols-outlined text-secondary-container mr-3">call</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface placeholder:text-outline/50" id="phone" name="phone" placeholder="+33 6 12 34 56 78" required="" type="tel"/>
+</div>
+</div>
+<!-- Password -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-outline" for="password">Mot de passe</label>
+<div class="electric-glow flex items-center bg-surface-container rounded-lg border border-white/5 px-4 py-3 transition-all duration-300">
+<span class="material-symbols-outlined text-secondary-container mr-3">lock</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-on-surface placeholder:text-outline/50" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Terms Checkbox -->
+<div class="flex items-start gap-3">
+<div class="flex items-center h-5">
+<input class="w-5 h-5 rounded border-outline-variant bg-surface-container text-primary-container focus:ring-primary-container/50 cursor-pointer" id="terms" required="" type="checkbox"/>
+</div>
+<label class="text-label-sm font-label-sm text-on-surface-variant leading-tight" for="terms">
+                            J'accepte les <a class="text-primary-container hover:underline" href="#">Conditions Générales</a> et la <a class="text-primary-container hover:underline" href="#">Politique de Confidentialité</a> d'Apex.
+                        </label>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-primary-container hover:bg-primary-container/90 text-white font-headline-md text-headline-md py-4 rounded-xl transition-all duration-300 active:scale-95 shadow-[0_4px_20px_rgba(0,82,255,0.3)]" type="submit">
+                        S'inscrire
+                    </button>
+</form>
+<div class="mt-8 pt-6 border-t border-white/5 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Vous avez déjà un compte ? 
+                        <a class="text-secondary-container font-label-md hover:underline ml-1" href="#">Connectez-vous</a>
+</p>
+</div>
+</div>
+<!-- Footer Small -->
+<div class="mt-8 flex justify-center gap-6 text-outline font-label-sm text-label-sm">
+<a class="hover:text-on-surface transition-colors" href="#">Sécurité</a>
+<a class="hover:text-on-surface transition-colors" href="#">Support</a>
+<span>© 2024 Apex Rental Inc.</span>
+</div>
+</div>
+</main>
+<!-- Visual Background Element (Image) -->
+<div class="hidden lg:block fixed right-0 top-0 h-full w-1/3 z-0">
+<img class="h-full w-full object-cover opacity-40 mix-blend-lighten" data-alt="A high-performance luxury sports car in matte black finish, positioned in a dark, ultra-modern showroom with blue neon light strips reflecting on its carbon fiber body. The atmosphere is cinematic and executive, with a deep obsidian background and soft atmospheric fog creating a sense of mystery and precision engineering. The lighting is low-key with intense electric blue highlights that emphasize the aerodynamic curves of the vehicle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcuFzoeMpEbGpJ20V6quvNB8B0IQ-pUoQ2Bto3_XChDWdoJA6swalS2b1pa2ShH-5bWHigbfNBs3XWqftWrrhODTUPmACbizXy66sQ_YtiN5oFCz6zY7w3OxjDJPL3MPXOjA5ZuGDqylvJ9v8zT7w-2KmJiIMhHH29uk5eUAbpjB2Iq9OSouB6khXesrrNdw9eVedLaqog03yKxnEbPcKXHITTMg-yS2kQJt-c0vQUGYXqxOZTO0SA7efoEyoU7596Nnf5A_yOUXw"/>
+</div>
+<script>
+        // Micro-interactions for form feedback
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="flex items-center justify-center gap-2"><svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Création...</span>';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Compte créé avec succès ! Bienvenue chez Apex.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1500);
+        });
+
+        // Toggle Password Visibility
+        const passToggle = document.querySelector('button[type="button"]');
+        const passInput = document.getElementById('password');
+        passToggle.addEventListener('click', () => {
+            const isPass = passInput.type === 'password';
+            passInput.type = isPass ? 'text' : 'password';
+            passToggle.querySelector('span').innerText = isPass ? 'visibility_off' : 'visibility';
+        });
+    </script>
+</body></html>

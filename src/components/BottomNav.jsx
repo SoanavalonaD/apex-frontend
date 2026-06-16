@@ -1,9 +1,10 @@
 import React from 'react';
 
-export default function BottomNav({ currentPage, setCurrentPage }) {
+export default function BottomNav({ currentPage, setCurrentPage, token }) {
   const navItems = [
     { id: 'home', label: 'Accueil', icon: 'home' },
     { id: 'search', label: 'Recherche', icon: 'search' },
+    ...(token ? [{ id: 'history', label: 'Réservations', icon: 'history' }] : []),
     { id: 'details', label: 'Détails', icon: 'directions_car' },
     { id: 'reservation', label: 'Réservation', icon: 'calendar_month' },
     { id: 'design', label: 'Design', icon: 'palette' }

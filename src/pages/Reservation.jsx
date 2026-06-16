@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Reservation({ selectedVehicle, setCurrentPage }) {
+export default function Reservation({ selectedVehicle, setCurrentPage, onConfirmBooking }) {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [promoCode, setPromoCode] = useState('');
@@ -48,6 +48,18 @@ export default function Reservation({ selectedVehicle, setCurrentPage }) {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      if (onConfirmBooking) {
+        onConfirmBooking({
+          id: Date.now().toString(),
+          vehicleTitle: vehicle.title,
+          vehicleImage: vehicle.image,
+          dates: "24 oct. - 27 oct. 2026",
+          pickup: "Salon Exécutif Apex (T3 Aéroport)",
+          dropoff: "Centre Apex Centre-ville (7e Ave)",
+          totalAmount: totalAmount.toLocaleString(),
+          status: "Confirmée"
+        });
+      }
       setShowModal(true);
     }, 1500);
   };
@@ -276,7 +288,7 @@ export default function Reservation({ selectedVehicle, setCurrentPage }) {
                 className="w-full bg-surface-container-highest border border-outline-variant py-4 rounded-xl font-label-md hover:bg-surface-variant transition-colors text-white"
                 onClick={() => {
                   setShowModal(false);
-                  setCurrentPage('home');
+                  setCurrentPage('history');
                 }}
               >
                 Voir mes réservations
