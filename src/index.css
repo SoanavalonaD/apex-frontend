@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #0B0B0C;
+    color: #e5e2e3;
+    -webkit-font-smoothing: antialiased;
+    min-height: max(884px, 100dvh);
+  }
+
+  /* Custom scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #0052ff;
+    border-radius: 10px;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer components {
+  /* Glass panels and cards */
+  .glass-card, .glass-panel {
+    background: rgba(30, 32, 37, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Electric blue glow */
+  .electric-glow {
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .electric-glow:hover {
+    box-shadow: 0px 4px 20px rgba(0, 82, 255, 0.3);
+  }
+
+  .electric-glow:focus-within {
+    box-shadow: 0px 0px 20px rgba(0, 82, 255, 0.2);
+    border-color: #0052ff;
+  }
+
+  .glow-blue {
+    box-shadow: 0px 4px 20px rgba(0, 82, 255, 0.3);
+  }
+  
+  .blue-glow {
+    box-shadow: 0px 4px 20px rgba(0, 82, 255, 0.2);
+  }
+
+  /* Status and indicators */
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+  }
+
+  .zebra-stripe:nth-child(3n) {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+}
