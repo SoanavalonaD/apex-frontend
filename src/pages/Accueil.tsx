@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 
-export default function Accueil({ setCurrentPage, setSelectedVehicle }) {
+interface AccueilProps {
+  setCurrentPage: (page: string) => void;
+  setSelectedVehicle: (vehicle: unknown) => void;
+}
+
+export default function Accueil({ setCurrentPage, setSelectedVehicle }: AccueilProps) {
   const [pickup, setPickup] = useState('');
   const [dates, setDates] = useState('');
 
@@ -51,7 +56,7 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle }) {
     }
   ];
 
-  const handleBook = (car) => {
+  const handleBook = (car: any) => {
     setSelectedVehicle(car);
     setCurrentPage('reservation');
   };
@@ -75,12 +80,12 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle }) {
               </label>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-secondary">search</span>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={pickup}
                   onChange={(e) => setPickup(e.target.value)}
-                  className="w-full bg-surface-container-low border-b-2 border-outline-variant focus:border-primary-container outline-none py-3 pl-12 pr-4 transition-all text-on-surface" 
-                  placeholder="Dubai Marina, Émirats Arabes Unis" 
+                  className="w-full bg-surface-container-low border-b-2 border-outline-variant focus:border-primary-container outline-none py-3 pl-12 pr-4 transition-all text-on-surface"
+                  placeholder="Dubai Marina, Émirats Arabes Unis"
                 />
               </div>
             </div>
@@ -90,16 +95,16 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle }) {
               </label>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-secondary">calendar_month</span>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   value={dates}
                   onChange={(e) => setDates(e.target.value)}
-                  className="w-full bg-surface-container-low border-b-2 border-outline-variant focus:border-primary-container outline-none py-3 pl-12 pr-4 transition-all text-on-surface" 
-                  placeholder="24 oct. - 28 oct." 
+                  className="w-full bg-surface-container-low border-b-2 border-outline-variant focus:border-primary-container outline-none py-3 pl-12 pr-4 transition-all text-on-surface"
+                  placeholder="24 oct. - 28 oct."
                 />
               </div>
             </div>
-            <button 
+            <button
               onClick={() => setCurrentPage('search')}
               className="bg-primary-container text-white px-10 py-3 rounded-lg font-headline-md text-headline-md electric-glow transition-all active:scale-95 self-end md:h-[54px]"
             >
@@ -119,16 +124,14 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle }) {
         </div>
         <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
           {categories.map((cat) => (
-            <div 
-              key={cat.id} 
+            <div
+              key={cat.id}
               onClick={() => setCurrentPage('search')}
-              className={`flex-shrink-0 w-32 h-32 glass-card rounded-xl flex flex-col items-center justify-center gap-3 cursor-pointer group transition-all hover:border-primary ${
-                cat.active ? 'border-primary bg-primary-container/10' : ''
-              }`}
+              className={`flex-shrink-0 w-32 h-32 glass-card rounded-xl flex flex-col items-center justify-center gap-3 cursor-pointer group transition-all hover:border-primary ${cat.active ? 'border-primary bg-primary-container/10' : ''
+                }`}
             >
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${
-                cat.active ? 'bg-primary-container' : 'bg-surface-container group-hover:bg-primary-container/20'
-              }`}>
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${cat.active ? 'bg-primary-container' : 'bg-surface-container group-hover:bg-primary-container/20'
+                }`}>
                 <span className={`material-symbols-outlined scale-125 ${cat.active ? 'text-white' : 'text-secondary'}`}>{cat.icon}</span>
               </div>
               <span className={`font-label-md text-label-md ${cat.active ? 'text-primary' : ''}`}>{cat.label}</span>
@@ -155,8 +158,8 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle }) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredVehicles.map((car) => (
-            <div 
-              key={car.id} 
+            <div
+              key={car.id}
               onClick={() => {
                 if (car.available) {
                   setSelectedVehicle(car);
@@ -166,9 +169,9 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle }) {
               className="glass-card rounded-2xl overflow-hidden group cursor-pointer transition-all hover:-translate-y-2"
             >
               <div className="relative aspect-[16/9] overflow-hidden">
-                <img 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                  alt={car.title} 
+                <img
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  alt={car.title}
                   src={car.image}
                 />
                 <div className="absolute top-4 left-4">
@@ -205,7 +208,7 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle }) {
                     <span className="text-on-surface-variant font-label-sm text-label-sm">/ jour</span>
                   </div>
                   {car.available ? (
-                    <button 
+                    <button
                       onClick={() => handleBook(car)}
                       className="bg-primary text-on-primary px-5 py-2 rounded-lg font-label-md text-label-md hover:bg-white transition-colors"
                     >
