@@ -1,7 +1,38 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Page } from '../App';
 
-export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
-  const [filters, setFilters] = useState({
+export interface Vehicle {
+  id: string;
+  title: string;
+  type: string;
+  transmission: string;
+  specs: string;
+  rating: string;
+  price: string;
+  status: string;
+  statusColor: string;
+  statusBg: string;
+  image: string;
+  description: string;
+  linkTo?: Page;
+  disabled?: boolean;
+}
+
+interface Filters {
+  price: boolean;
+  type: boolean;
+  rating: boolean;
+  electric: boolean;
+  luxe: boolean;
+}
+
+interface RechercheProps {
+  setCurrentPage: (page: Page) => void;
+  setSelectedVehicle: (vehicle: Vehicle | null) => void;
+}
+
+export default function Recherche({ setCurrentPage, setSelectedVehicle }: RechercheProps) {
+  const [filters, setFilters] = useState<Filters>({
     price: false,
     type: false,
     rating: false,
@@ -9,7 +40,7 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
     luxe: false
   });
 
-  const fleet = [
+  const fleet: Vehicle[] = [
     {
       id: 'tesla-s',
       title: 'Tesla Model S Plaid',
@@ -23,7 +54,7 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
       statusBg: 'bg-primary-container text-on-primary-container',
       image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBpdsJgXgHg2bq-632r_H3w60W8TMrsv-HEDE72mdBE4m7DFHJ-nWcdTqIr4E3Fk0H4ewetR4N_vfQWmtk6I_vndrf_CUatGWIHDXddQu1quy7GLezQ-ffz-mA_ru9ykPM_B8pN1OF4qorK7moWU0Q1NWh9syasqI85zXOafnbwTqjbyUNkTXe1wh0RaHQ4e2eGIyiJOGZhHD18WWtxhQlrtq7xmBPnousMkadVIRxgGuN_Y5-brn4gh7_sk6UTHd6xzOhdPfB5VW4',
       description: 'Découvrez le summum de l\'ingénierie automobile avec la Tesla Model S Plaid.',
-      linkTo: 'details' // Tesla has a full details screen
+      linkTo: 'details'
     },
     {
       id: 'bmw-m8',
@@ -57,11 +88,11 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
     }
   ];
 
-  const toggleFilter = (key) => {
+  const toggleFilter = (key: keyof Filters) => {
     setFilters(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleAction = (car) => {
+  const handleAction = (car: Vehicle) => {
     if (car.disabled) return;
     setSelectedVehicle(car);
     setCurrentPage('details');
@@ -75,10 +106,10 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
           <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg tracking-tight">Flotte disponible</h2>
           <span className="text-on-surface-variant font-body-md">24 résultats trouvés</span>
         </div>
-        
+
         {/* Filter Chips */}
         <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
-          <button 
+          <button
             onClick={() => toggleFilter('price')}
             className={`flex items-center gap-2 px-5 py-2 rounded-full glass-card border transition-all active:scale-95 ${
               filters.price ? 'border-primary text-primary' : 'text-on-surface-variant hover:border-outline'
@@ -87,8 +118,8 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
             <span className="font-label-md text-label-md">Prix</span>
             <span className="material-symbols-outlined text-[18px]">expand_more</span>
           </button>
-          
-          <button 
+
+          <button
             onClick={() => toggleFilter('type')}
             className={`flex items-center gap-2 px-5 py-2 rounded-full glass-card border transition-all active:scale-95 ${
               filters.type ? 'border-primary text-primary' : 'text-on-surface-variant hover:border-outline'
@@ -98,7 +129,7 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
             <span className="material-symbols-outlined text-[18px]">expand_more</span>
           </button>
 
-          <button 
+          <button
             onClick={() => toggleFilter('rating')}
             className={`flex items-center gap-2 px-5 py-2 rounded-full glass-card border transition-all active:scale-95 ${
               filters.rating ? 'border-primary text-primary' : 'text-on-surface-variant hover:border-outline'
@@ -108,7 +139,7 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
             <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
           </button>
 
-          <button 
+          <button
             onClick={() => toggleFilter('electric')}
             className={`flex items-center gap-2 px-5 py-2 rounded-full glass-card border transition-all active:scale-95 ${
               filters.electric ? 'border-primary text-primary' : 'text-on-surface-variant hover:border-outline'
@@ -117,7 +148,7 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
             <span className="font-label-md text-label-md">Électrique</span>
           </button>
 
-          <button 
+          <button
             onClick={() => toggleFilter('luxe')}
             className={`flex items-center gap-2 px-5 py-2 rounded-full glass-card border transition-all active:scale-95 ${
               filters.luxe ? 'border-primary text-primary' : 'text-on-surface-variant hover:border-outline'
@@ -131,8 +162,8 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
       {/* Results List */}
       <div className="space-y-gutter">
         {fleet.map((car) => (
-          <div 
-            key={car.id} 
+          <div
+            key={car.id}
             onClick={() => handleAction(car)}
             className={`zebra-stripe rounded-xl overflow-hidden glass-card group transition-all duration-300 ${
               car.disabled ? 'cursor-not-allowed' : 'cursor-pointer hover:border-primary/40'
@@ -140,9 +171,9 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
           >
             <div className="flex flex-col md:flex-row">
               <div className="w-full md:w-80 h-52 relative overflow-hidden">
-                <img 
-                  alt={car.title} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                <img
+                  alt={car.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   src={car.image}
                 />
                 <div className="absolute top-4 left-4">
@@ -184,14 +215,14 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }) {
                 </div>
                 <div className="mt-6 flex gap-4" onClick={(e) => e.stopPropagation()}>
                   {car.disabled ? (
-                    <button 
-                      className="flex-1 py-3 rounded-lg bg-surface-variant text-on-surface-variant cursor-not-allowed font-label-md" 
+                    <button
+                      className="flex-1 py-3 rounded-lg bg-surface-variant text-on-surface-variant cursor-not-allowed font-label-md"
                       disabled
                     >
                       Indisponible
                     </button>
                   ) : (
-                    <button 
+                    <button
                       onClick={() => handleAction(car)}
                       className="flex-1 py-3 rounded-lg bg-primary-container text-on-primary-container font-label-md blue-glow active:scale-95 transition-all"
                     >

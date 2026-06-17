@@ -1,13 +1,25 @@
-import React from 'react';
+import { Page } from '../App';
 
-export default function BottomNav({ currentPage, setCurrentPage, token }) {
-  const navItems = [
+interface NavItem {
+  id: Page;
+  label: string;
+  icon: string;
+}
+
+interface BottomNavProps {
+  currentPage: Page;
+  setCurrentPage: (page: Page) => void;
+  token: string | null;
+}
+
+export default function BottomNav({ currentPage, setCurrentPage, token }: BottomNavProps) {
+  const navItems: NavItem[] = [
     { id: 'home', label: 'Accueil', icon: 'home' },
     { id: 'search', label: 'Recherche', icon: 'search' },
-    ...(token ? [{ id: 'history', label: 'Réservations', icon: 'history' }] : []),
+    ...(token ? [{ id: 'history' as Page, label: 'Réservations', icon: 'history' }] : []),
     { id: 'details', label: 'Détails', icon: 'directions_car' },
     { id: 'reservation', label: 'Réservation', icon: 'calendar_month' },
-    { id: 'design', label: 'Design', icon: 'palette' }
+    { id: 'design', label: 'Design', icon: 'palette' },
   ];
 
   return (
