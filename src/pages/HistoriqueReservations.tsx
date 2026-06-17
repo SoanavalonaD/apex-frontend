@@ -1,6 +1,12 @@
-import React from 'react';
+import type { Page } from '../App';
+import type { Booking } from './Reservation';
 
-export default function HistoriqueReservations({ reservations, setCurrentPage }) {
+interface HistoriqueReservationsProps {
+  reservations: Booking[];
+  setCurrentPage: (page: Page) => void;
+}
+
+export default function HistoriqueReservations({ reservations, setCurrentPage }: HistoriqueReservationsProps) {
   return (
     <div className="pt-24 pb-32 px-container-margin max-w-7xl mx-auto space-y-section-gap">
       

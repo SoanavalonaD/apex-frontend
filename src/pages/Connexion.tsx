@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useLogin } from '../api/auth/hooks/useLogin';
 import type { User } from '../api/auth/auth.types';
+import type { Page } from '../App';
 
 interface ConnexionProps {
-  setCurrentPage: (page: string) => void;
+  setCurrentPage: (page: Page) => void;
   onLogin: (token: string, user: User) => void;
 }
-
 export default function Connexion({ setCurrentPage, onLogin }: ConnexionProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

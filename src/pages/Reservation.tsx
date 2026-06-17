@@ -1,13 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import type { Page } from '../App';
+import { useState } from 'react'
+import type { Car } from '../features/cars.types'
 
-export default function Reservation({ selectedVehicle, setCurrentPage, onConfirmBooking }) {
-  const [loading, setLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [promoCode, setPromoCode] = useState('');
-  const [promoApplied, setPromoApplied] = useState(false);
+export interface Booking {
+  id: string;
+  vehicleTitle: string;
+  vehicleImage: string;
+  dates: string;
+  pickup: string;
+  dropoff: string;
+  totalAmount: string;
+  status: string;
+}
 
-  // Default vehicle is Porsche Taycan Turbo S if none is selected
-  const defaultVehicle = {
+interface ReservationProps {
+  selectedVehicle?: Car | null;
+  setCurrentPage: (page: Page) => void;
+  onConfirmBooking?: (booking: Booking) => void;
+}
+
+export default function Reservation({ selectedVehicle, setCurrentPage, onConfirmBooking }: ReservationProps) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [promoCode, setPromoCode] = useState<string>('');
+  const [promoApplied, setPromoApplied] = useState<boolean>(false);
+
+  const defaultVehicle: Car = {
     id: 'porsche-taycan',
     title: 'Porsche Taycan Turbo S',
     type: 'Électrique',
@@ -21,30 +39,30 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBZ3ZuYfz-eWYFdGEhHYjxKMDjC-huOC8EUOpcND1MrOQLx5H-OynyYP6eFoRdWclghDG9JsGwifPxAUxNp-khJS45x1i_CwyaVZMtbAs7S68z8lLqZBwlJj69LjjL46kTB5_VjCivgammb9GVIUUOM8AdJg8evJNOxIxi5OeYAlrbQczpw-rgzbpT0qhUFCOLPm1oQgDQsmQ0RmxKVH06-rlRgFFY_JWlIGjXU98T_uLyGUbvu4vDFdXmu8JdxYG0udoyfwpLKmz8'
   };
 
-  const vehicle = selectedVehicle ? {
-    ...defaultVehicle,
-    ...selectedVehicle,
-    // Ensure we convert specs and extra fields for customized selectedVehicle
-    seats: selectedVehicle.seats || '5 Sièges',
-    baggage: selectedVehicle.baggage || '2 Bagages',
-    accel: selectedVehicle.accel || '0-100 en 1.99s',
-    transmission: selectedVehicle.transmission || 'Automatique'
-  } : defaultVehicle;
+  const vehicle: Car = selectedVehicle
+    ? {
+      ...defaultVehicle,
+      ...selectedVehicle,
+      seats: selectedVehicle.seats ?? '5 Sièges',
+      baggage: selectedVehicle.baggage ?? '2 Bagages',
+      accel: selectedVehicle.accel ?? '0-100 en 1.99s',
+      transmission: selectedVehicle.transmission ?? 'Automatique',
+    } as Car
+    : defaultVehicle;
 
   // Pricing calculations
   const dailyRate = parseInt(vehicle.price.replace(/\s/g, ''), 10);
   const rentalDays = 3;
   const rawSubtotal = dailyRate * rentalDays;
-  
-  // Custom add-ons
+
   const insurance = vehicle.id === 'porsche-taycan' ? 580000 : 300000;
   const serviceFee = vehicle.id === 'porsche-taycan' ? 130000 : 100000;
   const envTax = vehicle.id === 'porsche-taycan' ? 50000 : 28000;
-  
+
   const discount = promoApplied ? Math.round(rawSubtotal * 0.1) : 0;
   const totalAmount = rawSubtotal + insurance + serviceFee + envTax - discount;
 
-  const handleConfirm = () => {
+  const handleConfirm = (): void => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -64,7 +82,7 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
     }, 1500);
   };
 
-  const applyPromo = () => {
+  const applyPromo = (): void => {
     if (promoCode.trim().toUpperCase() === 'APEX2026') {
       setPromoApplied(true);
       alert('Code promo appliqué : 10% de réduction sur la location de base !');
@@ -86,8 +104,8 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
             </h2>
             <div className="glass-panel rounded-xl overflow-hidden group">
               <div className="relative h-64 overflow-hidden">
-                <img 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                <img
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   alt={vehicle.title}
                   src={vehicle.image}
                 />
@@ -108,7 +126,10 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-primary font-headline-md">{vehicle.price}<span className="text-label-md font-label-md text-on-surface-variant"> MGA/jour</span></p>
+                    <p className="text-primary font-headline-md">
+                      {vehicle.price}
+                      <span className="text-label-md font-label-md text-on-surface-variant"> MGA/jour</span>
+                    </p>
                   </div>
                 </div>
                 <div className="flex gap-6 border-t border-outline-variant pt-4">
@@ -148,14 +169,14 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
                 </div>
                 <div className="flex items-center gap-3 bg-surface-dim/50 p-3 rounded-lg border border-outline-variant">
                   <span className="material-symbols-outlined text-on-surface-variant">schedule</span>
-                  <input 
-                    className="bg-transparent border-none focus:ring-0 text-on-surface w-full font-label-md outline-none" 
-                    type="datetime-local" 
+                  <input
+                    className="bg-transparent border-none focus:ring-0 text-on-surface w-full font-label-md outline-none"
+                    type="datetime-local"
                     defaultValue="2026-10-24T10:00"
                   />
                 </div>
               </div>
-              
+
               {/* Drop-off */}
               <div className="glass-panel p-6 rounded-xl space-y-4 electric-glow transition-all duration-300">
                 <label className="text-label-md font-label-md text-secondary uppercase tracking-wider">Retour</label>
@@ -168,9 +189,9 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
                 </div>
                 <div className="flex items-center gap-3 bg-surface-dim/50 p-3 rounded-lg border border-outline-variant">
                   <span className="material-symbols-outlined text-on-surface-variant">schedule</span>
-                  <input 
-                    className="bg-transparent border-none focus:ring-0 text-on-surface w-full font-label-md outline-none" 
-                    type="datetime-local" 
+                  <input
+                    className="bg-transparent border-none focus:ring-0 text-on-surface w-full font-label-md outline-none"
+                    type="datetime-local"
                     defaultValue="2026-10-27T18:00"
                   />
                 </div>
@@ -218,9 +239,9 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
                   <p className="text-label-sm text-on-surface-variant italic">Assurance tous risques et assistance routière incluses.</p>
                 </div>
               </div>
-              
+
               {/* Action Button */}
-              <button 
+              <button
                 onClick={handleConfirm}
                 disabled={loading}
                 className="w-full mt-8 bg-primary-container hover:opacity-90 active:scale-[0.98] transition-all duration-200 text-on-primary-container font-headline-md py-4 rounded-xl shadow-[0_4px_20px_rgba(0,82,255,0.3)] flex items-center justify-center gap-3"
@@ -228,7 +249,7 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
                 {loading ? (
                   <>
                     <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                     <span>Traitement en cours...</span>
@@ -246,7 +267,7 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
                 <span className="material-symbols-outlined">verified_user</span>
               </div>
             </section>
-            
+
             {/* Add-ons / Promotions */}
             <div className="glass-panel p-6 rounded-xl border-dashed border-outline-variant">
               <div className="flex items-center gap-4">
@@ -256,11 +277,11 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
                 <div className="flex-1">
                   <p className="font-label-md text-label-md text-white">Appliquer Code Promo</p>
                   <p className="text-label-sm text-on-surface-variant">Code membre: utilisez "APEX2026"</p>
-                  <input 
-                    type="text" 
-                    placeholder="Entrer le code" 
+                  <input
+                    type="text"
+                    placeholder="Entrer le code"
                     value={promoCode}
-                    onChange={(e) => setPromoCode(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPromoCode(e.target.value)}
                     className="mt-2 w-full bg-surface-dim/50 border border-outline-variant p-2 rounded text-sm text-white focus:outline-none"
                   />
                 </div>
@@ -284,7 +305,7 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
               Votre {vehicle.title} est réservée. Une confirmation et une clé numérique ont été envoyées à votre adresse e-mail.
             </p>
             <div className="space-y-4">
-              <button 
+              <button
                 className="w-full bg-surface-container-highest border border-outline-variant py-4 rounded-xl font-label-md hover:bg-surface-variant transition-colors text-white"
                 onClick={() => {
                   setShowModal(false);
@@ -293,8 +314,8 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
               >
                 Voir mes réservations
               </button>
-              <button 
-                className="w-full text-primary font-label-md" 
+              <button
+                className="w-full text-primary font-label-md"
                 onClick={() => {
                   setShowModal(false);
                   setCurrentPage('home');

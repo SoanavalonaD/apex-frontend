@@ -1,6 +1,33 @@
 import React from 'react';
+import type { Page } from '../App';
+import type { Car } from '../features/cars.types';
 
-const VEHICLE_DETAILS = {
+interface VehicleSpec {
+  label: string;
+  val: string;
+  unit: string;
+  icon: string;
+}
+
+interface VehicleDetail {
+  title: string;
+  type: string;
+  status: string;
+  image: string;
+  price: number;
+  specs: VehicleSpec[];
+  gallery: string[];
+  desc1: string;
+  desc2: string;
+}
+
+interface DetailsVehiculeProps {
+  selectedVehicle: Car | null;
+  setCurrentPage: (page: Page) => void;
+  setSelectedVehicle: (vehicle: Car) => void;
+}
+
+const VEHICLE_DETAILS: Record<string, VehicleDetail> = {
   'tesla-s': {
     title: 'Tesla Model S Plaid',
     type: 'Électrique de Luxe',
@@ -123,11 +150,16 @@ const VEHICLE_DETAILS = {
   }
 };
 
-export default function DetailsVehicule({ selectedVehicle, setCurrentPage, setSelectedVehicle }) {
+const DetailsVehicule: React.FC<DetailsVehiculeProps> = ({
+  selectedVehicle,
+  setCurrentPage,
+  setSelectedVehicle,
+}) => {
   const carId = selectedVehicle?.id || 'tesla-s';
   const detail = VEHICLE_DETAILS[carId] || VEHICLE_DETAILS['tesla-s'];
 
-  const formatPrice = (val) => String(val).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  const formatPrice = (val: number): string =>
+    String(val).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
   const handleBook = () => {
     setSelectedVehicle({
@@ -136,9 +168,10 @@ export default function DetailsVehicule({ selectedVehicle, setCurrentPage, setSe
       price: formatPrice(detail.price),
       image: detail.image,
       type: detail.type,
-      transmission: selectedVehicle?.transmission || 'Automatique',
-      specs: selectedVehicle?.specs || (detail.specs.find(s => s.label === 'Sièges')?.val + ' places') || '5 places',
-      rating: selectedVehicle?.rating || '4.9'
+      transmission: selectedVehicle?.transmission ?? 'Automatique',
+      rating: selectedVehicle?.rating ?? '4.9',
+      specs: selectedVehicle?.specs ?? (detail.specs.find(s => s.label === 'Sièges')?.val ?? '5') + ' places',
+      description: detail.desc1,
     });
     setCurrentPage('reservation');
   };
@@ -148,9 +181,9 @@ export default function DetailsVehicule({ selectedVehicle, setCurrentPage, setSe
       <main className="pt-24 pb-32">
         {/* Hero Banner Section */}
         <section className="relative w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden">
-          <img 
-            alt={detail.title} 
-            className="w-full h-full object-cover" 
+          <img
+            alt={detail.title}
+            className="w-full h-full object-cover"
             src={detail.image}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0C] via-transparent to-transparent"></div>
@@ -158,7 +191,7 @@ export default function DetailsVehicule({ selectedVehicle, setCurrentPage, setSe
 
         {/* Content Container */}
         <div className="max-w-7xl mx-auto px-container-margin -mt-16 relative z-10">
-          
+
           {/* Header Info */}
           <div className="flex flex-col gap-2 mb-gutter">
             <div className="flex items-center gap-2 flex-wrap">
@@ -174,8 +207,8 @@ export default function DetailsVehicule({ selectedVehicle, setCurrentPage, setSe
           {/* Bento Specs Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-section-gap">
             {detail.specs.map((spec, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className="glass-card rounded-xl p-4 flex flex-col gap-1 transition-transform hover:scale-[1.02] duration-300"
               >
                 <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>
@@ -193,13 +226,13 @@ export default function DetailsVehicule({ selectedVehicle, setCurrentPage, setSe
             <h3 className="font-headline-md text-headline-md mb-4 text-primary animate-fade-in">Galerie Média</h3>
             <div className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory -mx-container-margin px-container-margin">
               {detail.gallery.map((url, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className="flex-none w-72 md:w-96 aspect-video rounded-xl overflow-hidden snap-start relative group"
                 >
-                  <img 
+                  <img
                     alt={`Vue ${i + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     src={url}
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
@@ -219,7 +252,7 @@ export default function DetailsVehicule({ selectedVehicle, setCurrentPage, setSe
                 {detail.desc2}
               </p>
             </div>
-            
+
             <div className="glass-card rounded-xl p-6 flex flex-col gap-4 h-fit border-outline-variant/30">
               <h4 className="font-label-md text-label-md text-secondary uppercase tracking-wider">La Location Inclut</h4>
               <ul className="flex flex-col gap-3">
@@ -246,7 +279,7 @@ export default function DetailsVehicule({ selectedVehicle, setCurrentPage, setSe
             </div>
           </div>
           {detail.status === 'Disponible' ? (
-            <button 
+            <button
               onClick={handleBook}
               className="bg-primary-container text-on-primary-container px-8 py-4 rounded-full font-label-md text-label-md glow-blue hover:opacity-90 active:scale-95 duration-200 transition-all flex items-center gap-2"
             >
@@ -254,7 +287,7 @@ export default function DetailsVehicule({ selectedVehicle, setCurrentPage, setSe
               <span className="material-symbols-outlined">arrow_forward</span>
             </button>
           ) : (
-            <button 
+            <button
               disabled
               className="bg-surface-variant text-on-surface-variant px-8 py-4 rounded-full font-label-md text-label-md cursor-not-allowed flex items-center gap-2"
             >
@@ -266,3 +299,4 @@ export default function DetailsVehicule({ selectedVehicle, setCurrentPage, setSe
     </div>
   );
 }
+export default DetailsVehicule

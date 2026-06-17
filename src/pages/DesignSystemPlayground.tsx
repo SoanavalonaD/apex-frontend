@@ -1,7 +1,23 @@
 import React from 'react';
 
-export default function DesignSystemPlayground() {
-  const themeColors = [
+interface ThemeColor {
+  name: string;
+  hex: string;
+  bg: string;
+  container?: string;
+}
+
+interface TypographyItem {
+  tag: string;
+  font: string;
+  size: string;
+  weight: string;
+  lh: string;
+  desc: string;
+}
+
+const DesignSystemPlayground: React.FC = () => {
+  const themeColors: ThemeColor[] = [
     { name: 'Surface (Midnight)', hex: '#131314', bg: 'bg-[#131314]' },
     { name: 'Background (Obsidian)', hex: '#0B0B0C', bg: 'bg-[#0B0B0C]' },
     { name: 'Primary (Electric Blue)', hex: '#b7c4ff', container: '#0052ff', bg: 'bg-[#0052ff]' },
@@ -11,17 +27,66 @@ export default function DesignSystemPlayground() {
     { name: 'Surface Container', hex: '#201f20', bg: 'bg-[#201f20]' },
     { name: 'Surface Container High', hex: '#2a2a2b', bg: 'bg-[#2a2a2b]' },
     { name: 'Outline', hex: '#8d90a2', bg: 'bg-[#8d90a2]' },
-    { name: 'Outline Variant', hex: '#434656', bg: 'bg-[#434656]' }
+    { name: 'Outline Variant', hex: '#434656', bg: 'bg-[#434656]' },
   ];
 
-  const typography = [
-    { tag: 'headline-xl', font: 'Sora', size: '48px (3rem)', weight: 'Bold (700)', lh: '56px', desc: 'Élevez Votre Voyage' },
-    { tag: 'headline-lg', font: 'Sora', size: '32px (2rem)', weight: 'Bold (700)', lh: '40px', desc: 'Porsche Taycan Turbo S' },
-    { tag: 'headline-md', font: 'Sora', size: '24px (1.5rem)', weight: 'Semi-Bold (600)', lh: '32px', desc: 'Votre Sélection' },
-    { tag: 'body-lg', font: 'Inter', size: '18px (1.125rem)', weight: 'Regular (400)', lh: '28px', desc: 'Accès à une flotte premium avec une précision de niveau exécutif.' },
-    { tag: 'body-md', font: 'Inter', size: '16px (1rem)', weight: 'Regular (400)', lh: '24px', desc: 'L\'intérieur est un sanctuaire de technologie...' },
-    { tag: 'label-md', font: 'Inter', size: '14px (0.875rem)', weight: 'Semi-Bold (600)', lh: '20px', desc: 'CONFIRMER LA RÉSERVATION' },
-    { tag: 'label-sm', font: 'Inter', size: '12px (0.75rem)', weight: 'Medium (500)', lh: '16px', desc: 'DISPONIBLE' }
+  const typography: TypographyItem[] = [
+    {
+      tag: 'headline-xl',
+      font: 'Sora',
+      size: '48px (3rem)',
+      weight: 'Bold (700)',
+      lh: '56px',
+      desc: 'Élevez Votre Voyage',
+    },
+    {
+      tag: 'headline-lg',
+      font: 'Sora',
+      size: '32px (2rem)',
+      weight: 'Bold (700)',
+      lh: '40px',
+      desc: 'Porsche Taycan Turbo S',
+    },
+    {
+      tag: 'headline-md',
+      font: 'Sora',
+      size: '24px (1.5rem)',
+      weight: 'Semi-Bold (600)',
+      lh: '32px',
+      desc: 'Votre Sélection',
+    },
+    {
+      tag: 'body-lg',
+      font: 'Inter',
+      size: '18px (1.125rem)',
+      weight: 'Regular (400)',
+      lh: '28px',
+      desc: 'Accès à une flotte premium avec une précision de niveau exécutif.',
+    },
+    {
+      tag: 'body-md',
+      font: 'Inter',
+      size: '16px (1rem)',
+      weight: 'Regular (400)',
+      lh: '24px',
+      desc: "L'intérieur est un sanctuaire de technologie...",
+    },
+    {
+      tag: 'label-md',
+      font: 'Inter',
+      size: '14px (0.875rem)',
+      weight: 'Semi-Bold (600)',
+      lh: '20px',
+      desc: 'CONFIRMER LA RÉSERVATION',
+    },
+    {
+      tag: 'label-sm',
+      font: 'Inter',
+      size: '12px (0.75rem)',
+      weight: 'Medium (500)',
+      lh: '16px',
+      desc: 'DISPONIBLE',
+    },
   ];
 
   return (
@@ -189,3 +254,4 @@ export default function DesignSystemPlayground() {
     </div>
   );
 }
+export default DesignSystemPlayground

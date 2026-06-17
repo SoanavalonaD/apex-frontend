@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react'
+import type { Page } from '../App';
+import type { Car } from '../features/cars.types'
 
 interface AccueilProps {
-  setCurrentPage: (page: string) => void;
-  setSelectedVehicle: (vehicle: unknown) => void;
+  setCurrentPage: (page: Page) => void;
+  setSelectedVehicle: (vehicle: Car) => void;
 }
 
 export default function Accueil({ setCurrentPage, setSelectedVehicle }: AccueilProps) {
