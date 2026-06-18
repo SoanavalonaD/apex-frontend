@@ -1,3 +1,4 @@
+import { User } from "../api/auth/auth.types";
 import { Page } from "../App";
 
 
@@ -6,9 +7,10 @@ interface NavbarProps {
   setCurrentPage: (page: Page) => void;
   token: string | null;
   handleLogout: () => void;
+  user: User | null;
 }
 
-export default function Navbar({ currentPage, setCurrentPage, token, handleLogout }: NavbarProps) {
+export default function Navbar({ currentPage, setCurrentPage, token, handleLogout, user }: NavbarProps) {
   return (
     <header className="fixed top-0 w-full z-50 backdrop-blur-xl bg-surface/80 dark:bg-surface-dim/80 border-b border-outline-variant shadow-sm h-16">
       <div className="flex justify-between items-center px-container-margin h-full w-full max-w-7xl mx-auto">
@@ -40,34 +42,36 @@ export default function Navbar({ currentPage, setCurrentPage, token, handleLogou
             <nav className="flex gap-4">
               <button
                 onClick={() => setCurrentPage('home')}
-                className={`font-label-md transition-colors ${
-                  currentPage === 'home'
-                    ? 'text-primary dark:text-primary-fixed'
-                    : 'text-on-surface-variant hover:text-white'
-                }`}
+                className={`font-label-md transition-colors ${currentPage === 'home'
+                  ? 'text-primary dark:text-primary-fixed'
+                  : 'text-on-surface-variant hover:text-white'
+                  }`}
               >
                 Accueil
               </button>
               <button
                 onClick={() => setCurrentPage('search')}
-                className={`font-label-md transition-colors ${
-                  currentPage === 'search'
-                    ? 'text-primary dark:text-primary-fixed'
-                    : 'text-on-surface-variant hover:text-white'
-                }`}
+                className={`font-label-md transition-colors ${currentPage === 'search'
+                  ? 'text-primary dark:text-primary-fixed'
+                  : 'text-on-surface-variant hover:text-white'
+                  }`}
               >
                 Recherche
               </button>
               {token && (
                 <button
                   onClick={() => setCurrentPage('history')}
-                  className={`font-label-md transition-colors ${
-                    currentPage === 'history'
-                      ? 'text-primary dark:text-primary-fixed'
-                      : 'text-on-surface-variant hover:text-white'
-                  }`}
+                  className={`font-label-md transition-colors ${currentPage === 'history'
+                    ? 'text-primary dark:text-primary-fixed'
+                    : 'text-on-surface-variant hover:text-white'
+                    }`}
                 >
                   Réservations
+                </button>
+              )}
+              {user?.role === 'admin' && (
+                <button onClick={() => setCurrentPage('addcar')} className="text-primary font-bold">
+                  Ajouter un Véhicule
                 </button>
               )}
             </nav>
@@ -84,7 +88,11 @@ export default function Navbar({ currentPage, setCurrentPage, token, handleLogou
               onClick={() => setCurrentPage('login')}
               className="border border-outline-variant hover:border-primary hover:text-primary text-on-surface-variant px-5 py-1.5 rounded-full font-label-md transition-all active:scale-95"
             >
-              Se connecter
+              {user ? (
+                <span>Bonjour, {user.name}</span>
+              ) : (
+                <button>Se connecter</button>
+              )}
             </button>
           )}
         </div>

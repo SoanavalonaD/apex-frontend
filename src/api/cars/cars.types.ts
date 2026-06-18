@@ -1,7 +1,3 @@
-/**
- * Raw shape returned by GET /api/cars and GET /api/cars/{id}
- * from the Laravel backend.
- */
 export interface CarApiResponse {
   id: number;
   brand: string;
@@ -14,21 +10,16 @@ export interface CarApiResponse {
   updated_at: string;
 }
 
-/**
- * Augmented Car shape consumed by the UI.
- * Fields marked with /*+ are synthesised by the mapper because
- * the backend database does not store them.
- */
 export interface CarUI {
   id: string;
-  title: string;              // brand + model
+  title: string;
   type: string;
-  transmission: string;       // + mapped from type/value
-  seats: string;              // + placeholder
-  rating: string;             // + placeholder
-  price: string;              // formatted price_per_day
-  image: string;              // + Unsplash URL based on brand/type
-  description: string;        // + generated blurb
+  transmission: string;
+  seats: string;
+  rating: string;
+  price: string;
+  image: string;
+  description: string;
   available: boolean;
   status: string;
   statusColor: string;
@@ -37,4 +28,18 @@ export interface CarUI {
   baggage?: string;
   accel?: string;
   disabled?: boolean;
+}
+
+export interface CarCreatePayload {
+  brand: string;
+  model: string;
+  license_plate: string;
+  type: string;
+  price_per_day: number;
+  status: string;
+}
+
+export interface ValidationErrorResponse {
+    message: string;
+    errors: Record<string, string[]>;
 }

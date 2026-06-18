@@ -11,8 +11,9 @@ import CreationCompte from './pages/CreationCompte';
 import HistoriqueReservations from './pages/HistoriqueReservations';
 import { authService } from './api/auth/auth.service';
 import type { User } from './api/auth/auth.types';
-import type { Car } from './features/cars.types'
-import type { Booking } from './pages/Reservation'
+import type { Car } from './features/cars.types';
+import type { Booking } from './pages/Reservation';
+import { AddCarForm } from './pages/admin/components/AddCarForm';
 
 export type Page =
   | 'home'
@@ -20,6 +21,7 @@ export type Page =
   | 'details'
   | 'reservation'
   | 'design'
+  | 'addcar'
   | 'login'
   | 'signup'
   | 'history';
@@ -30,9 +32,12 @@ function App() {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem('apex_token')
   );
-  const [, setUser] = useState<User | null>(
+
+  // CORRECTION ICI : Ajout de la variable 'user' pour pouvoir lire ses propriétés (comme le rôle)
+  const [user, setUser] = useState<User | null>(
     JSON.parse(localStorage.getItem('apex_user') ?? 'null')
   );
+
   const [reservations, setReservations] = useState<Booking[]>(
     JSON.parse(localStorage.getItem('apex_reservations') || '[]')
   );
@@ -42,7 +47,12 @@ function App() {
     localStorage.setItem('apex_user', JSON.stringify(newUser));
     setToken(newToken);
     setUser(newUser);
-    setCurrentPage('home');
+
+    if (newUser.role === 'admin') {
+      setCurrentPage('addcar');
+    } else {
+      setCurrentPage('home');
+    }
   };
 
   const handleLogout = async () => {
@@ -102,6 +112,12 @@ function App() {
         );
       case 'design':
         return <DesignSystemPlayground />;
+      case 'addcar':
+        return user?.role === 'admin' ? (
+          <AddCarForm setCurrentPage={setCurrentPage} />
+        ) : (
+          <Accueil setCurrentPage={setCurrentPage} setSelectedVehicle={setSelectedVehicle} />
+        );
       case 'login':
         return <Connexion setCurrentPage={setCurrentPage} onLogin={handleLogin} />;
       case 'signup':
@@ -134,6 +150,7 @@ function App() {
           setCurrentPage={setCurrentPage}
           token={token}
           handleLogout={handleLogout}
+          user={user}
         />
       )}
 
