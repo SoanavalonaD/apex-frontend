@@ -13,7 +13,7 @@ export const AddCarForm: React.FC<AddCarFormProps> = ({ setCurrentPage }) => {
         brand: '',
         model: '',
         license_plate: '',
-        type: 'Standard',
+        type: 'Economy',
         price_per_day: '',
         status: 'available',
     });
@@ -53,7 +53,7 @@ export const AddCarForm: React.FC<AddCarFormProps> = ({ setCurrentPage }) => {
                 brand: '',
                 model: '',
                 license_plate: '',
-                type: 'Standard',
+                type: 'Economy',
                 price_per_day: '',
                 status: 'available',
             });
@@ -182,7 +182,7 @@ export const AddCarForm: React.FC<AddCarFormProps> = ({ setCurrentPage }) => {
                                     onChange={handleChange}
                                     required
                                 >
-                                    <option value="Standard">Standard</option>
+                                    <option value="Economy">Économique</option>
                                     <option value="Electric">Électrique</option>
                                     <option value="SUV">SUV</option>
                                     <option value="Luxury">Luxe</option>

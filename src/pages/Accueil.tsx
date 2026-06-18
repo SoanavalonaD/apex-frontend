@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import type { Page } from '../App';
-import type { Car } from '../features/cars.types'
-import { useCars } from '../api/cars/hooks/useCars'
+import type { CarUI } from '../api/cars/cars.types'; // Utilisation unifiée de CarUI
+import { useCars } from '../api/cars/hooks/useCars';
+import { carService } from '../api/cars/cars.service';
+import { DeleteConfirmationModal } from './admin/modal/DeleteConfirmationModal';
 
 interface AccueilProps {
   setCurrentPage: (page: Page) => void;
-  setSelectedVehicle: (vehicle: Car) => void;
+  setSelectedVehicle: (vehicle: CarUI) => void;
   isAdmin?: boolean;
 }
 
@@ -13,6 +15,10 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
   const { cars, loading } = useCars();
   const [pickup, setPickup] = useState('');
   const [dates, setDates] = useState('');
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [carToDelete, setCarToDelete] = useState<CarUI | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const categories = [
     { id: 'suv', label: 'SUV', icon: 'airport_shuttle' },
@@ -25,20 +31,44 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
   const featuredVehicles = (cars ?? []).slice(0, 3);
   console.log("Featured Vehicles to render:", featuredVehicles);
 
-  const handleBook = (car: Car) => {
+  const handleBook = (car: CarUI) => {
     setSelectedVehicle(car);
     setCurrentPage('reservation');
   };
 
-  const handleEdit = (car: Car) => {
+  const handleEdit = (car: CarUI) => {
     setSelectedVehicle(car);
     setCurrentPage('edit-car');
   };
 
-  const handleDelete = async (carId: number) => {
-    if (confirm('Voulez-vous vraiment supprimer ce véhicule du catalogue ?')) {
-      console.log(`Suppression du véhicule ID: ${carId}`);
+  const handleOpenDeleteModal = (car: CarUI) => {
+    setCarToDelete(car);
+    setIsModalOpen(true);
+  };
+
+  // Traitement de la suppression depuis le modal
+  const handleConfirmDelete = async () => {
+    if (!carToDelete) return;
+
+    setDeleteLoading(true);
+    const token = localStorage.getItem('apex_token') ?? '';
+
+    if (!token) {
+      alert("Action non autorisée. Jeton admin manquant.");
+      setDeleteLoading(false);
+      return;
     }
+
+    const { ok, data } = await carService.delete(carToDelete.id, token);
+
+    if (ok) {
+      setIsModalOpen(false);
+      setCarToDelete(null);
+      window.location.reload();
+    } else {
+      alert((data as any).message || "Une erreur est survenue lors de la suppression.");
+    }
+    setDeleteLoading(false);
   };
 
   return (
@@ -167,7 +197,7 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
                       <span className="material-symbols-outlined text-sm">edit</span>
                     </button>
                     <button
-                      onClick={() => handleDelete(Number(car.id))}
+                      onClick={() => handleOpenDeleteModal(car)} // Changement ici : déclenche le modal
                       className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-red-400 hover:bg-red-600 hover:text-white transition-colors"
                       title="Supprimer le véhicule"
                     >
@@ -251,6 +281,14 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
           </div>
         </div>
       </section>
+
+      <DeleteConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        carTitle={carToDelete?.title || ''}
+        loading={deleteLoading}
+      />
     </div>
   );
 }

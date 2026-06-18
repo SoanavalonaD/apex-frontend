@@ -15,7 +15,7 @@ export const EditCarForm: React.FC<EditCarFormProps> = ({ setCurrentPage, car })
         brand: '',
         model: '',
         license_plate: '',
-        type: 'Standard',
+        type: 'Economy',
         price_per_day: '',
         status: 'available',
     });
@@ -29,12 +29,12 @@ export const EditCarForm: React.FC<EditCarFormProps> = ({ setCurrentPage, car })
             const brand = titleParts[0] || '';
             const model = titleParts.slice(1).join(' ') || '';
 
-            let detectedType = car.type || 'Standard';
+            let detectedType = car.type || 'Economy';
 
             if (detectedType.toLowerCase().includes('elect')) detectedType = 'Electric';
             if (detectedType.toLowerCase().includes('suv')) detectedType = 'SUV';
             if (detectedType.toLowerCase().includes('lux')) detectedType = 'Luxury';
-            if (detectedType.toLowerCase().includes('stand')) detectedType = 'Standard';
+            if (detectedType.toLowerCase().includes('stand')) detectedType = 'Economy';
 
             setFormData({
                 brand: brand,
@@ -203,7 +203,7 @@ export const EditCarForm: React.FC<EditCarFormProps> = ({ setCurrentPage, car })
                                     onChange={handleChange}
                                     required
                                 >
-                                    <option value="Standard">Standard</option>
+                                    <option value="Economy">Économique</option>
                                     <option value="Electric">Électrique</option>
                                     <option value="SUV">SUV</option>
                                     <option value="Luxury">Luxe</option>

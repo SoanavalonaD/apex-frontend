@@ -41,7 +41,7 @@ function augmentCar(apiCar: CarApiResponse): CarUI {
   const typeLabel = apiCar.type === 'Electric' ? 'Électrique'
     : apiCar.type === 'SUV' ? 'SUV'
       : apiCar.type === 'Luxury' ? 'Luxe'
-        : 'Standard';
+        : 'Economy';
   const isAvailable = apiCar.status === 'available';
   const carTypeLC = apiCar.type.toLowerCase();
 
@@ -132,6 +132,22 @@ export const carService = {
       return { ok: response.ok, data };
     } catch (error) {
       return { ok: false, data: { message: "Erreur réseau lors de la mise à jour." } };
+    }
+  },
+  delete: async (id: string | number, token: string) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/cars/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      return { ok: response.ok, data };
+    } catch (error) {
+      return { ok: false, data: { message: "Erreur réseau lors de la suppression." } };
     }
   }
 };
