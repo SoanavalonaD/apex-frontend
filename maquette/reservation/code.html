@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Paiement | Apex Car Rental</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #0B0B0C;
+            color: #e5e2e3;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-panel {
+            background: rgba(30, 32, 37, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .electric-glow:focus-within {
+            box-shadow: 0 0 20px rgba(0, 82, 255, 0.2);
+            border-color: #0052ff;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        /* Custom scrollbar for data heavy sections */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #434656; border-radius: 10px; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#4cd6ff",
+                      "primary": "#b7c4ff",
+                      "surface-container-high": "#2a2a2b",
+                      "surface-dim": "#131314",
+                      "secondary": "#a6e6ff",
+                      "on-background": "#e5e2e3",
+                      "on-tertiary": "#3c0090",
+                      "outline-variant": "#434656",
+                      "primary-fixed": "#dde1ff",
+                      "on-tertiary-fixed-variant": "#5700c9",
+                      "outline": "#8d90a2",
+                      "surface": "#131314",
+                      "on-secondary-container": "#00566b",
+                      "on-primary-fixed": "#001452",
+                      "background": "#131314",
+                      "error-container": "#93000a",
+                      "tertiary-fixed": "#e9ddff",
+                      "on-primary-container": "#dfe3ff",
+                      "on-surface": "#e5e2e3",
+                      "surface-container-low": "#1c1b1c",
+                      "on-secondary-fixed": "#001f28",
+                      "on-error": "#690005",
+                      "inverse-on-surface": "#313031",
+                      "primary-container": "#0052ff",
+                      "surface-container": "#201f20",
+                      "tertiary": "#d1bcff",
+                      "error": "#ffb4ab",
+                      "secondary-container": "#14d1ff",
+                      "on-primary-fixed-variant": "#0038b6",
+                      "surface-variant": "#353436",
+                      "inverse-primary": "#004ced",
+                      "on-secondary-fixed-variant": "#004e60",
+                      "tertiary-fixed-dim": "#d1bcff",
+                      "on-primary": "#002682",
+                      "surface-tint": "#b7c4ff",
+                      "surface-container-lowest": "#0e0e0f",
+                      "tertiary-container": "#792eff",
+                      "surface-container-highest": "#353436",
+                      "on-tertiary-container": "#ebdfff",
+                      "secondary-fixed": "#b7eaff",
+                      "on-surface-variant": "#c3c5d9",
+                      "on-error-container": "#ffdad6",
+                      "surface-bright": "#3a393a",
+                      "on-secondary": "#003543",
+                      "primary-fixed-dim": "#b7c4ff",
+                      "inverse-surface": "#e5e2e3",
+                      "on-tertiary-fixed": "#23005b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "section-gap": "40px",
+                      "gutter": "16px",
+                      "base": "8px",
+                      "container-margin": "24px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Sora"],
+                      "label-md": ["Inter"],
+                      "headline-lg-mobile": ["Sora"],
+                      "headline-xl": ["Sora"],
+                      "headline-lg": ["Sora"]
+              },
+              "fontSize": {
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-xl bg-surface/80 dark:bg-surface-dim/80 border-b border-outline-variant shadow-sm">
+<div class="flex justify-between items-center px-container-margin h-16 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<button class="active:scale-95 duration-200 transition-transform text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Apex Car Rental</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-container-margin max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter lg:gap-section-gap">
+<!-- Left Column: Selection Details -->
+<div class="lg:col-span-7 space-y-section-gap">
+<!-- Vehicle Summary Card -->
+<section>
+<h2 class="font-headline-md text-headline-md mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+                        Votre Sélection
+                    </h2>
+<div class="glass-panel rounded-xl overflow-hidden group">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Une voiture de sport électrique élégante et performante dans une finition obsidienne métallique, garée à l'intérieur d'un garage moderne et futuriste avec un éclairage d'accentuation bleu électrique néon se reflétant sur sa surface polie. Les lignes aérodynamiques agressives de la voiture et ses phares à LED brillants suggèrent vitesse et précision. L'ambiance générale est cinématographique, luxueuse et technologiquement avancée, correspondant à l'esthétique d'une marque exécutive haut de gamme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZ3ZuYfz-eWYFdGEhHYjxKMDjC-huOC8EUOpcND1MrOQLx5H-OynyYP6eFoRdWclghDG9JsGwifPxAUxNp-khJS45x1i_CwyaVZMtbAs7S68z8lLqZBwlJj69LjjL46kTB5_VjCivgammb9GVIUUOM8AdJg8evJNOxIxi5OeYAlrbQczpw-rgzbpT0qhUFCOLPm1oQgDQsmQ0RmxKVH06-rlRgFFY_JWlIGjXU98T_uLyGUbvu4vDFdXmu8JdxYG0udoyfwpLKmz8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim to-transparent opacity-60"></div>
+<div class="absolute bottom-4 left-4">
+<span class="bg-secondary-container/20 text-secondary-fixed-dim px-3 py-1 rounded-full text-label-sm font-label-sm border border-secondary/30 flex items-center w-fit backdrop-blur-md">
+<span class="status-dot bg-secondary-fixed-dim shadow-[0_0_8px_#4cd6ff]"></span>
+                                    Flotte Premium
+                                </span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-lg text-headline-lg">Porsche Taycan Turbo S</h3>
+<p class="text-on-surface-variant font-body-md">Électrique • 750ch • Transmission Intégrale</p>
+</div>
+<div class="text-right">
+<p class="text-primary font-headline-md">1.200.000<span class="text-label-md font-label-md text-on-surface-variant"> MGA/jour</span></p>
+</div>
+</div>
+<div class="flex gap-6 border-t border-outline-variant pt-4">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 0;">airline_seat_recline_normal</span>
+<span class="text-label-md font-label-md">4 Sièges</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 0;">luggage</span>
+<span class="text-label-md font-label-md">2 Bagages</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 0;">bolt</span>
+<span class="text-label-md font-label-md">0-100 en 2.6s</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Location & Schedule -->
+<section class="space-y-6">
+<h2 class="font-headline-md text-headline-md flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
+                        Détails de la Location
+                    </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Pickup -->
+<div class="glass-panel p-6 rounded-xl space-y-4 electric-glow transition-all duration-300">
+<label class="text-label-md font-label-md text-secondary uppercase tracking-wider">Départ</label>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1" style="font-variation-settings: 'FILL' 0;">near_me</span>
+<div class="flex-1">
+<p class="font-body-lg text-body-lg font-bold">Salon Exécutif Apex</p>
+<p class="text-on-surface-variant text-label-sm">Terminal 3, Aéroport International</p>
+</div>
+</div>
+<div class="flex items-center gap-3 bg-surface-dim/50 p-3 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">schedule</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface w-full font-label-md" type="datetime-local" value="2023-11-24T10:00"/>
+</div>
+</div>
+<!-- Drop-off -->
+<div class="glass-panel p-6 rounded-xl space-y-4 electric-glow transition-all duration-300">
+<label class="text-label-md font-label-md text-secondary uppercase tracking-wider">Retour</label>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1" style="font-variation-settings: 'FILL' 0;">location_on</span>
+<div class="flex-1">
+<p class="font-body-lg text-body-lg font-bold">Centre Apex Centre-ville</p>
+<p class="text-on-surface-variant text-label-sm">7ème Avenue, Quartier Financier</p>
+</div>
+</div>
+<div class="flex items-center gap-3 bg-surface-dim/50 p-3 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">schedule</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface w-full font-label-md" type="datetime-local" value="2023-11-26T18:00"/>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Price Breakdown & Payment -->
+<div class="lg:col-span-5">
+<div class="sticky top-24 space-y-6">
+<section class="glass-panel p-8 rounded-xl border-primary/20">
+<h2 class="font-headline-md text-headline-md mb-6">Résumé du Prix</h2>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md">Tarif Journalier (1.200.000 x 3)</span>
+<span class="font-label-md text-on-surface">3.600.000 MGA</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md flex items-center gap-1">
+                                    Assurance (Elite Plus)
+                                    <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 0;">info</span>
+</span>
+<span class="font-label-md text-on-surface">580.000 MGA</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md">Frais de Service</span>
+<span class="font-label-md text-on-surface">130.000 MGA</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="font-body-md">Taxe Environnementale</span>
+<span class="font-label-md text-on-surface">50.000 MGA</span>
+</div>
+<div class="pt-4 border-t border-outline-variant space-y-4">
+<div class="flex justify-between items-center">
+<span class="font-headline-md text-headline-md">Montant Total</span>
+<span class="font-headline-md text-headline-md text-primary">4.360.000 MGA</span>
+</div>
+<p class="text-label-sm text-on-surface-variant italic">Assurance tous risques et assistance routière incluses.</p>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full mt-8 bg-primary-container hover:opacity-90 active:scale-[0.98] transition-all duration-200 text-on-primary-container font-headline-md py-4 rounded-xl shadow-[0_4px_20px_rgba(0,82,255,0.3)] flex items-center justify-center gap-3" id="confirmBooking">
+                            Confirmer la Réservation
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lock</span>
+</button>
+<div class="mt-6 flex justify-center gap-4 text-on-surface-variant opacity-50">
+<span class="material-symbols-outlined">payment</span>
+<span class="material-symbols-outlined">security</span>
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+</section>
+<!-- Add-ons / Promotions -->
+<div class="glass-panel p-6 rounded-xl border-dashed border-outline-variant">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 rounded-full bg-secondary-container/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">loyalty</span>
+</div>
+<div class="flex-1">
+<p class="font-label-md text-label-md">Appliquer Code Promo</p>
+<p class="text-label-sm text-on-surface-variant">Réductions membres Apex disponibles</p>
+</div>
+<button class="text-primary font-label-md">Ajouter</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Success Modal (Hidden by default) -->
+<div class="fixed inset-0 z-[100] hidden items-center justify-center p-4" id="successModal">
+<div class="absolute inset-0 bg-black/80 backdrop-blur-xl"></div>
+<div class="relative glass-panel max-w-md w-full p-10 rounded-2xl text-center scale-95 transition-transform duration-500 opacity-0 transform-gpu" id="modalContent">
+<div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-primary/20">
+<span class="material-symbols-outlined text-primary text-5xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="font-headline-xl text-headline-xl mb-4">Réservation Confirmée</h2>
+<p class="text-on-surface-variant font-body-lg mb-8">Votre Porsche Taycan Turbo S est réservée. Une confirmation et une clé numérique ont été envoyées à votre adresse e-mail.</p>
+<div class="space-y-4">
+<button class="w-full bg-surface-container-highest border border-outline-variant py-4 rounded-xl font-label-md hover:bg-surface-variant transition-colors" onclick="window.location.reload()">
+                    Voir mes réservations
+                </button>
+<button class="w-full text-primary font-label-md" onclick="window.location.reload()">
+                    Retour au tableau de bord
+                </button>
+</div>
+</div>
+</div>
+<script>
+        const confirmBtn = document.getElementById('confirmBooking');
+        const modal = document.getElementById('successModal');
+        const modalContent = document.getElementById('modalContent');
+
+        confirmBtn.addEventListener('click', () => {
+            // Simulate processing
+            confirmBtn.innerHTML = `
+                <svg class="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Traitement en cours...
+            `;
+            confirmBtn.disabled = true;
+
+            setTimeout(() => {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => {
+                    modalContent.classList.remove('opacity-0', 'scale-95');
+                    modalContent.classList.add('opacity-100', 'scale-100');
+                }, 10);
+            }, 1500);
+        });
+
+        // Interactive inputs
+        document.querySelectorAll('input[type="datetime-local"]').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.closest('.glass-panel').classList.add('border-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.closest('.glass-panel').classList.remove('border-primary');
+            });
+        });
+    </script>
+</body></html>
