@@ -27,6 +27,8 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
   const [promoApplied, setPromoApplied] = useState<boolean>(false);
   const startDateRef = useRef<HTMLInputElement>(null);
   const endDateRef = useRef<HTMLInputElement>(null);
+  const [pickupLocation, setPickupLocation] = useState<string>("");
+  const [dropoffLocation, setDropoffLocation] = useState<string>("");
 
   const { createRental, loading } = useCreateRental();
 
@@ -92,6 +94,8 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
       car_id: carId,
       start_date: startDate,
       end_date: endDate,
+      pickup_location: pickupLocation,
+      dropoff_location: dropoffLocation,
     }, token);
 
     if (!result) {
@@ -115,8 +119,8 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
         vehicleTitle: vehicle.title,
         vehicleImage: vehicle.image,
         dates: `${formatDate(startDate)} — ${formatDate(endDate)}`,
-        pickup: "Salon Exécutif Apex (T3 Aéroport)",
-        dropoff: "Centre Apex Centre-ville (7e Ave)",
+        pickup: pickupLocation,
+        dropoff: dropoffLocation,
         totalAmount: totalAmount.toLocaleString(),
         status: "Confirmée"
       });
@@ -205,8 +209,13 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
                 <div className="flex items-start gap-3">
                   <span className="material-symbols-outlined text-primary mt-1">near_me</span>
                   <div className="flex-1">
-                    <p className="font-body-lg text-body-lg font-bold text-white">Salon Exécutif Apex</p>
-                    <p className="text-on-surface-variant text-label-sm">Terminal 3, Aéroport International</p>
+                    <input
+                      type="text"
+                      className="bg-transparent border-none focus:ring-0 text-white w-full font-body-lg font-bold outline-none placeholder:text-on-surface-variant/50 px-0"
+                      value={pickupLocation}
+                      onChange={(e) => setPickupLocation(e.target.value)}
+                      placeholder="Lieu de départ"
+                    />
                   </div>
                 </div>
                 <div className="flex items-center gap-3 bg-surface-dim/50 p-3 rounded-lg border border-outline-variant">
@@ -226,8 +235,13 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
                 <div className="flex items-start gap-3">
                   <span className="material-symbols-outlined text-primary mt-1">location_on</span>
                   <div className="flex-1">
-                    <p className="font-body-lg text-body-lg font-bold text-white">Centre Apex Centre-ville</p>
-                    <p className="text-on-surface-variant text-label-sm">7ème Avenue, Quartier Financier</p>
+                    <input
+                      type="text"
+                      className="bg-transparent border-none focus:ring-0 text-white w-full font-body-lg font-bold outline-none placeholder:text-on-surface-variant/50 px-0"
+                      value={dropoffLocation}
+                      onChange={(e) => setDropoffLocation(e.target.value)}
+                      placeholder="Lieu de retour"
+                    />
                   </div>
                 </div>
                 <div className="flex items-center gap-3 bg-surface-dim/50 p-3 rounded-lg border border-outline-variant">

@@ -16,6 +16,7 @@ export const AddCarForm: React.FC<AddCarFormProps> = ({ setCurrentPage }) => {
         type: 'Economy',
         price_per_day: '',
         status: 'available',
+        location: '',
     });
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -56,6 +57,7 @@ export const AddCarForm: React.FC<AddCarFormProps> = ({ setCurrentPage }) => {
                 type: 'Economy',
                 price_per_day: '',
                 status: 'available',
+                location: '',
             });
             setCurrentPage('home');
         } else {
@@ -162,6 +164,26 @@ export const AddCarForm: React.FC<AddCarFormProps> = ({ setCurrentPage }) => {
                                     value={formData.license_plate}
                                     onChange={handleChange}
                                     placeholder="Ex: AA-123-AA"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        {/* Location Input */}
+                        <div className="space-y-2">
+                            <label className="font-label-md text-label-md text-on-surface-variant ml-1" htmlFor="location">Lieu de prise en charge</label>
+                            <div className="relative group border border-white/10 rounded-lg bg-surface-container-low input-focus-glow transition-all">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <span className="material-symbols-outlined text-secondary text-[20px]">location_on</span>
+                                </div>
+                                <input
+                                    className="w-full bg-transparent border-none outline-none py-4 pl-12 pr-4 text-on-surface placeholder:text-outline/50 focus:ring-0"
+                                    id="location"
+                                    type="text"
+                                    name="location"
+                                    value={formData.location}
+                                    onChange={handleChange}
+                                    placeholder="Ex: Antananarivo, Ivandry..."
                                     required
                                 />
                             </div>

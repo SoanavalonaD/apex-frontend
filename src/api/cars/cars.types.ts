@@ -40,6 +40,7 @@ export interface CarCreatePayload {
   type: string;
   price_per_day: number;
   status: string;
+  location: string;
 }
 
 export interface ValidationErrorResponse {

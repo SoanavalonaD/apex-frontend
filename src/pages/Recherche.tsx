@@ -3,12 +3,12 @@ import type { Page } from '../App';
 import type { Car } from '../features/cars.types';
 import { useCars } from '../api/cars/hooks/useCars';
 
+type SortOrder = 'none' | 'asc' | 'desc';
+
 interface Filters {
-  price: boolean;
-  type: boolean;
-  rating: boolean;
-  electric: boolean;
-  luxe: boolean;
+  category: string;
+  priceSort: SortOrder;
+  ratingSort: SortOrder;
 }
 
 interface RechercheProps {
@@ -19,15 +19,25 @@ interface RechercheProps {
 export default function Recherche({ setCurrentPage, setSelectedVehicle }: RechercheProps) {
   const { cars, loading } = useCars();
   const [filters, setFilters] = useState<Filters>({
-    price: false,
-    type: false,
-    rating: false,
-    electric: false,
-    luxe: false
+    category: 'Toutes',
+    priceSort: 'none',
+    ratingSort: 'none'
   });
 
-  const toggleFilter = (key: keyof Filters) => {
-    setFilters(prev => ({ ...prev, [key]: !prev[key] }));
+  const togglePriceSort = () => {
+    setFilters(prev => ({
+      ...prev,
+      priceSort: prev.priceSort === 'none' ? 'asc' : prev.priceSort === 'asc' ? 'desc' : 'none',
+      ratingSort: 'none' // reset rating sort
+    }));
+  };
+
+  const toggleRatingSort = () => {
+    setFilters(prev => ({
+      ...prev,
+      ratingSort: prev.ratingSort === 'none' ? 'desc' : 'none',
+      priceSort: 'none' // reset price sort
+    }));
   };
 
   const handleAction = (car: Car) => {
@@ -36,63 +46,63 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }: Recher
     setCurrentPage('details');
   };
 
+  const processedCars = cars
+    .filter(car => {
+      if (filters.category !== 'Toutes' && car.type.toLowerCase() !== filters.category.toLowerCase()) {
+        return false;
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      if (filters.priceSort !== 'none') {
+        const priceA = parseInt(a.price.replace(/\s/g, ''), 10);
+        const priceB = parseInt(b.price.replace(/\s/g, ''), 10);
+        return filters.priceSort === 'asc' ? priceA - priceB : priceB - priceA;
+      }
+      if (filters.ratingSort === 'desc') {
+        return parseFloat(b.rating) - parseFloat(a.rating);
+      }
+      return 0;
+    });
+
   return (
     <div className="pt-24 pb-32 px-container-margin max-w-7xl mx-auto">
       {/* Filter Section */}
       <section className="mb-gutter">
         <div className="flex items-center justify-between mb-6">
           <h2 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg tracking-tight">Flotte disponible</h2>
-          <span className="text-on-surface-variant font-body-md">{cars.length} résultats</span>
+          <span className="text-on-surface-variant font-body-md">{processedCars.length} résultats</span>
         </div>
 
         {/* Filter Chips */}
-        <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+        <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2 items-center">
+          <select
+            value={filters.category}
+            onChange={(e) => setFilters(prev => ({ ...prev, category: e.target.value }))}
+            className="bg-surface-dim border border-outline-variant text-white px-4 py-2 rounded-lg font-label-md focus:outline-none focus:border-primary cursor-pointer appearance-none"
+            style={{ WebkitAppearance: 'none', backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.5rem center', backgroundSize: '1em', paddingRight: '2.5rem' }}
+          >
+            <option value="Toutes">Toutes les catégories</option>
+            <option value="Électrique">Électrique</option>
+            <option value="Sport">Sport</option>
+            <option value="Luxe">Luxe</option>
+            <option value="SUV">SUV</option>
+          </select>
+
           <button
-            onClick={() => toggleFilter('price')}
+            onClick={togglePriceSort}
             className={`flex items-center gap-2 px-5 py-2 rounded-full glass-card border transition-all active:scale-95 ${
-              filters.price ? 'border-primary text-primary' : 'text-on-surface-variant hover:border-outline'
+              filters.priceSort !== 'none' ? 'border-primary text-primary' : 'text-on-surface-variant hover:border-outline'
             }`}
           >
             <span className="font-label-md text-label-md">Prix</span>
-            <span className="material-symbols-outlined text-[18px]">expand_more</span>
-          </button>
-
-          <button
-            onClick={() => toggleFilter('type')}
-            className={`flex items-center gap-2 px-5 py-2 rounded-full glass-card border transition-all active:scale-95 ${
-              filters.type ? 'border-primary text-primary' : 'text-on-surface-variant hover:border-outline'
-            }`}
-          >
-            <span className="font-label-md text-label-md">Type</span>
-            <span className="material-symbols-outlined text-[18px]">expand_more</span>
-          </button>
-
-          <button
-            onClick={() => toggleFilter('rating')}
-            className={`flex items-center gap-2 px-5 py-2 rounded-full glass-card border transition-all active:scale-95 ${
-              filters.rating ? 'border-primary text-primary' : 'text-on-surface-variant hover:border-outline'
-            }`}
-          >
-            <span className="font-label-md text-label-md">Note</span>
-            <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-          </button>
-
-          <button
-            onClick={() => toggleFilter('electric')}
-            className={`flex items-center gap-2 px-5 py-2 rounded-full glass-card border transition-all active:scale-95 ${
-              filters.electric ? 'border-primary text-primary' : 'text-on-surface-variant hover:border-outline'
-            }`}
-          >
-            <span className="font-label-md text-label-md">Électrique</span>
-          </button>
-
-          <button
-            onClick={() => toggleFilter('luxe')}
-            className={`flex items-center gap-2 px-5 py-2 rounded-full glass-card border transition-all active:scale-95 ${
-              filters.luxe ? 'border-primary text-primary' : 'text-on-surface-variant hover:border-outline'
-            }`}
-          >
-            <span className="font-label-md text-label-md">Luxe</span>
+            {filters.priceSort === 'asc' ? (
+              <span className="material-symbols-outlined text-[18px]">arrow_upward</span>
+            ) : filters.priceSort === 'desc' ? (
+              <span className="material-symbols-outlined text-[18px]">arrow_downward</span>
+            ) : (
+              <span className="material-symbols-outlined text-[18px]">unfold_more</span>
+            )}
           </button>
         </div>
       </section>
@@ -107,7 +117,7 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }: Recher
         </div>
       ) : (
         <div className="space-y-gutter">
-          {cars.map((car) => (
+          {processedCars.map((car) => (
             <div
               key={car.id}
               onClick={() => handleAction(car)}

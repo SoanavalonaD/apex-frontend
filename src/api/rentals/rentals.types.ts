@@ -2,6 +2,8 @@ export interface CreateRentalPayload {
     car_id: number;
     start_date: string;
     end_date: string;
+    pickup_location: string;
+    dropoff_location: string;
 }
 
 export interface RentalResponse {
@@ -12,6 +14,8 @@ export interface RentalResponse {
     end_date: string;
     total_price: string;
     status: string;
+    pickup_location?: string;
+    dropoff_location?: string;
     created_at: string;
     updated_at: string;
     car?: {

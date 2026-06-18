@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Page } from '../App';
 import type { CarUI } from '../api/cars/cars.types'; // Utilisation unifiée de CarUI
 import { useCars } from '../api/cars/hooks/useCars';
@@ -16,6 +16,7 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
   const [pickup, setPickup] = useState('');
   const [dates, setDates] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [vehicleIndex, setVehicleIndex] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [carToDelete, setCarToDelete] = useState<CarUI | null>(null);
@@ -38,7 +39,24 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
     filteredCars = filteredCars.filter(car => car.type === activeCategory);
   }
 
-  const featuredVehicles = (searchCity || activeCategory) ? filteredCars : (cars ?? []).slice(0, 3);
+  const sourceCars = (searchCity || activeCategory) ? filteredCars : (cars ?? []);
+  
+  useEffect(() => {
+    setVehicleIndex(0);
+  }, [searchCity, activeCategory]);
+
+  const featuredVehicles = sourceCars.slice(vehicleIndex, vehicleIndex + 3);
+
+  const canGoPrev = vehicleIndex > 0;
+  const canGoNext = vehicleIndex + 3 < sourceCars.length;
+
+  const handlePrev = () => {
+    if (canGoPrev) setVehicleIndex(prev => prev - 1);
+  };
+
+  const handleNext = () => {
+    if (canGoNext) setVehicleIndex(prev => prev + 1);
+  };
 
   const handleBook = (car: CarUI) => {
     setSelectedVehicle(car);
@@ -175,10 +193,18 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
             <p className="text-on-surface-variant font-body-md text-body-md">Des machines haute performance méticuleusement entretenues.</p>
           </div>
           <div className="flex gap-2">
-            <button className="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:bg-surface-container-highest transition-colors">
+            <button 
+              onClick={handlePrev}
+              disabled={!canGoPrev}
+              className={`w-10 h-10 rounded-full glass-card flex items-center justify-center transition-colors ${canGoPrev ? 'hover:bg-surface-container-highest text-on-surface' : 'opacity-50 cursor-not-allowed text-on-surface-variant'}`}
+            >
               <span className="material-symbols-outlined">chevron_left</span>
             </button>
-            <button className="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:bg-surface-container-highest transition-colors">
+            <button 
+              onClick={handleNext}
+              disabled={!canGoNext}
+              className={`w-10 h-10 rounded-full glass-card flex items-center justify-center transition-colors ${canGoNext ? 'hover:bg-surface-container-highest text-on-surface' : 'opacity-50 cursor-not-allowed text-on-surface-variant'}`}
+            >
               <span className="material-symbols-outlined">chevron_right</span>
             </button>
           </div>
