@@ -15,22 +15,30 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
   const { cars, loading } = useCars();
   const [pickup, setPickup] = useState('');
   const [dates, setDates] = useState('');
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [carToDelete, setCarToDelete] = useState<CarUI | null>(null);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const categories = [
-    { id: 'suv', label: 'SUV', icon: 'airport_shuttle' },
-    { id: 'sport', label: 'Sport', icon: 'speed', active: true },
-    { id: 'electric', label: 'Électrique', icon: 'bolt' },
-    { id: 'luxe', label: 'Luxe', icon: 'diamond' }
+    { id: 'SUV', label: 'SUV', icon: 'airport_shuttle' },
+    { id: 'Economy', label: 'Économie', icon: 'speed' },
+    { id: 'Électrique', label: 'Électrique', icon: 'bolt' },
+    { id: 'Luxe', label: 'Luxe', icon: 'diamond' }
   ];
 
   const searchCity = pickup.trim().toLowerCase();
-  const featuredVehicles = searchCity
-    ? (cars ?? []).filter(car => car.location?.toLowerCase().includes(searchCity))
-    : (cars ?? []).slice(0, 3);
+  
+  let filteredCars = cars ?? [];
+  if (searchCity) {
+    filteredCars = filteredCars.filter(car => car.location?.toLowerCase().includes(searchCity));
+  }
+  if (activeCategory) {
+    filteredCars = filteredCars.filter(car => car.type === activeCategory);
+  }
+
+  const featuredVehicles = (searchCity || activeCategory) ? filteredCars : (cars ?? []).slice(0, 3);
 
   const handleBook = (car: CarUI) => {
     setSelectedVehicle(car);
@@ -140,15 +148,20 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
           {categories.map((cat) => (
             <div
               key={cat.id}
-              onClick={() => setCurrentPage('search')}
-              className={`flex-shrink-0 w-32 h-32 glass-card rounded-xl flex flex-col items-center justify-center gap-3 cursor-pointer group transition-all hover:border-primary ${cat.active ? 'border-primary bg-primary-container/10' : ''
-                }`}
+              onClick={() => {
+                setActiveCategory(cat.id === activeCategory ? null : cat.id);
+                document.getElementById('featured-rentals')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className={`flex-shrink-0 w-32 h-32 glass-card rounded-xl flex flex-col items-center justify-center gap-3 cursor-pointer group transition-all hover:border-primary ${
+                cat.id === activeCategory ? 'border-primary bg-primary-container/10' : ''
+              }`}
             >
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${cat.active ? 'bg-primary-container' : 'bg-surface-container group-hover:bg-primary-container/20'
-                }`}>
-                <span className={`material-symbols-outlined scale-125 ${cat.active ? 'text-white' : 'text-secondary'}`}>{cat.icon}</span>
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${
+                cat.id === activeCategory ? 'bg-primary-container' : 'bg-surface-container group-hover:bg-primary-container/20'
+              }`}>
+                <span className={`material-symbols-outlined scale-125 ${cat.id === activeCategory ? 'text-white' : 'text-secondary'}`}>{cat.icon}</span>
               </div>
-              <span className={`font-label-md text-label-md ${cat.active ? 'text-primary' : ''}`}>{cat.label}</span>
+              <span className={`font-label-md text-label-md ${cat.id === activeCategory ? 'text-primary' : ''}`}>{cat.label}</span>
             </div>
           ))}
         </div>
