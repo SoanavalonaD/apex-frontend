@@ -97,7 +97,7 @@ export default function Navbar({ currentPage, setCurrentPage, token, handleLogou
               {user ? (
                 <span>Bonjour, {user.name}</span>
               ) : (
-                <button>Se connecter</button>
+                <span>Se connecter</span>
               )}
             </button>
           )}
