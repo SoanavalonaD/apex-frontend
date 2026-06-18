@@ -74,6 +74,7 @@ function augmentCar(apiCar: CarApiResponse): CarUI {
     statusBg: isAvailable ? 'bg-primary-container text-on-primary-container'
       : 'bg-surface-container-highest text-on-surface-variant',
     disabled: !isAvailable,
+    license_plate: apiCar.license_plate,
   };
 }
 
@@ -115,4 +116,22 @@ export const carService = {
       token
     );
   },
+  update: async (id: number, payload: any, token: string) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/cars/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      return { ok: response.ok, data };
+    } catch (error) {
+      return { ok: false, data: { message: "Erreur réseau lors de la mise à jour." } };
+    }
+  }
 };

@@ -14,6 +14,7 @@ import type { User } from './api/auth/auth.types';
 import type { Car } from './features/cars.types';
 import type { Booking } from './pages/Reservation';
 import { AddCarForm } from './pages/admin/components/AddCarForm';
+import { EditCarForm } from './pages/admin/components/EditCarForm';
 
 export type Page =
   | 'home'
@@ -23,6 +24,7 @@ export type Page =
   | 'design'
   | 'addcar'
   | 'login'
+  | 'edit-car'
   | 'signup'
   | 'history';
 
@@ -33,7 +35,6 @@ function App() {
     localStorage.getItem('apex_token')
   );
 
-  // CORRECTION ICI : Ajout de la variable 'user' pour pouvoir lire ses propriétés (comme le rôle)
   const [user, setUser] = useState<User | null>(
     JSON.parse(localStorage.getItem('apex_user') ?? 'null')
   );
@@ -84,6 +85,7 @@ function App() {
           <Accueil
             setCurrentPage={setCurrentPage}
             setSelectedVehicle={setSelectedVehicle}
+            isAdmin={user?.role === 'admin'}
           />
         );
       case 'search':
@@ -118,6 +120,10 @@ function App() {
         ) : (
           <Accueil setCurrentPage={setCurrentPage} setSelectedVehicle={setSelectedVehicle} />
         );
+      case 'edit-car':
+        return (
+          <EditCarForm setCurrentPage={setCurrentPage} car={selectedVehicle} />
+        )
       case 'login':
         return <Connexion setCurrentPage={setCurrentPage} onLogin={handleLogin} />;
       case 'signup':

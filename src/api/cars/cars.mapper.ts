@@ -37,5 +37,7 @@ export const mapCarToUI = (car: CarApiResponse): CarUI => {
         baggage: '2 Bagages',
         accel: '0-100 km/h en 6.5s',
         disabled: !isAvailable,
+        license_plate: car.license_plate,
+
     };
 };

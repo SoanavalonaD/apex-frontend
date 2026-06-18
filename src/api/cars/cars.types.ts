@@ -28,6 +28,7 @@ export interface CarUI {
   baggage?: string;
   accel?: string;
   disabled?: boolean;
+  license_plate: string;
 }
 
 export interface CarCreatePayload {
