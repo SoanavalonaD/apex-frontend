@@ -26,7 +26,8 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
     { id: 'SUV', label: 'SUV', icon: 'airport_shuttle' },
     { id: 'Economy', label: 'Économie', icon: 'speed' },
     { id: 'Électrique', label: 'Électrique', icon: 'bolt' },
-    { id: 'Luxe', label: 'Luxe', icon: 'diamond' }
+    { id: 'Luxe', label: 'Luxe', icon: 'diamond' },
+    { id: 'Sport', label: 'Sport', icon: 'diamond' }
   ];
 
   const searchCity = pickup.trim().toLowerCase();

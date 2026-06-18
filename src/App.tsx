@@ -39,9 +39,7 @@ function App() {
     JSON.parse(localStorage.getItem('apex_user') ?? 'null')
   );
 
-  const [reservations, setReservations] = useState<Booking[]>(
-    JSON.parse(localStorage.getItem('apex_reservations') || '[]')
-  );
+  // Reservations are now fetched directly from the backend
 
   const handleLogin = (newToken: string, newUser: User) => {
     localStorage.setItem('apex_token', newToken);
@@ -72,10 +70,8 @@ function App() {
     setCurrentPage('home');
   };
 
-  const handleConfirmBooking = (newBooking: Booking) => {
-    const updated = [newBooking, ...reservations];
-    setReservations(updated);
-    localStorage.setItem('apex_reservations', JSON.stringify(updated));
+  const handleConfirmBooking = () => {
+    // No-op, reservations are refetched on the history page
   };
 
   const renderPage = () => {
@@ -131,8 +127,8 @@ function App() {
       case 'history':
         return (
           <HistoriqueReservations
-            reservations={reservations}
             setCurrentPage={setCurrentPage}
+            token={token}
           />
         );
       default:

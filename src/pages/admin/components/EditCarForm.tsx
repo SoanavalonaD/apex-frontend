@@ -19,6 +19,7 @@ export const EditCarForm: React.FC<EditCarFormProps> = ({ setCurrentPage, car })
         price_per_day: '',
         status: 'available',
         location: '',
+        image: '',
     });
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -36,6 +37,7 @@ export const EditCarForm: React.FC<EditCarFormProps> = ({ setCurrentPage, car })
             if (detectedType.toLowerCase().includes('suv')) detectedType = 'SUV';
             if (detectedType.toLowerCase().includes('lux')) detectedType = 'Luxury';
             if (detectedType.toLowerCase().includes('stand')) detectedType = 'Economy';
+            if (detectedType.toLowerCase().includes('sport')) detectedType = 'Sport';
 
             setFormData({
                 brand: brand,
@@ -45,6 +47,7 @@ export const EditCarForm: React.FC<EditCarFormProps> = ({ setCurrentPage, car })
                 price_per_day: String(car.price || ''),
                 status: car.available ? 'available' : 'rented',
                 location: (car as any).location || '',
+                image: car.image || '',
             });
         } else {
             setCurrentPage('home');
@@ -210,6 +213,25 @@ export const EditCarForm: React.FC<EditCarFormProps> = ({ setCurrentPage, car })
                             </div>
                         </div>
 
+                        {/* Image URL Input */}
+                        <div className="space-y-2">
+                            <label className="font-label-md text-label-md text-on-surface-variant ml-1" htmlFor="image">URL de l'image (Optionnel)</label>
+                            <div className="relative group border border-white/10 rounded-lg bg-surface-container-low input-focus-glow transition-all">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <span className="material-symbols-outlined text-secondary text-[20px]">image</span>
+                                </div>
+                                <input
+                                    className="w-full bg-transparent border-none outline-none py-4 pl-12 pr-4 text-on-surface placeholder:text-outline/50 focus:ring-0"
+                                    id="image"
+                                    type="url"
+                                    name="image"
+                                    value={formData.image}
+                                    onChange={handleChange}
+                                    placeholder="Ex: https://images.unsplash.com/..."
+                                />
+                            </div>
+                        </div>
+
                         {/* Vehicle Type Dropdown */}
                         <div className="space-y-2">
                             <label className="font-label-md text-label-md text-on-surface-variant ml-1" htmlFor="type">Type de propulsion</label>
@@ -229,6 +251,7 @@ export const EditCarForm: React.FC<EditCarFormProps> = ({ setCurrentPage, car })
                                     <option value="Electric">Électrique</option>
                                     <option value="SUV">SUV</option>
                                     <option value="Luxury">Luxe</option>
+                                    <option value="Sport">Sport</option>
                                 </select>
                             </div>
                         </div>

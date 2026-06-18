@@ -87,6 +87,7 @@ export default function Recherche({ setCurrentPage, setSelectedVehicle }: Recher
             <option value="Sport">Sport</option>
             <option value="Luxe">Luxe</option>
             <option value="SUV">SUV</option>
+            <option value="Economy">Économie</option>
           </select>
 
           <button

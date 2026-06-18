@@ -15,7 +15,7 @@ const IMAGE_MAP: Record<string, string> = {
   default: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=800&q=80',
 };
 
-function pickImage(brand: string, type: string): string {
+export function pickImage(brand: string, type: string): string {
   const key = brand.toLowerCase();
   return IMAGE_MAP[key] ?? (type === 'Electric' ? IMAGE_MAP.tesla : IMAGE_MAP.default);
 }
@@ -41,6 +41,7 @@ function augmentCar(apiCar: CarApiResponse): CarUI {
   const typeLabel = apiCar.type === 'Electric' ? 'Électrique'
     : apiCar.type === 'SUV' ? 'SUV'
       : apiCar.type === 'Luxury' ? 'Luxe'
+        : apiCar.type === 'Sport' ? 'Sport'
         : 'Economy';
   const isAvailable = apiCar.status === 'available';
   const carTypeLC = apiCar.type.toLowerCase();
@@ -66,7 +67,7 @@ function augmentCar(apiCar: CarApiResponse): CarUI {
     seats,
     rating,
     price: priceStr,
-    image: pickImage(brand, apiCar.type),
+    image: apiCar.image || pickImage(brand, apiCar.type),
     description: pickDescription(brand, model, apiCar.type),
     available: isAvailable,
     status: isAvailable ? 'Disponible' : 'Loué',

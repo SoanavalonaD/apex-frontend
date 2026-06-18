@@ -9,6 +9,7 @@ export interface CarApiResponse {
   created_at: string;
   updated_at: string;
   location: string;
+  image?: string;
 }
 
 export interface CarUI {
@@ -39,8 +40,9 @@ export interface CarCreatePayload {
   license_plate: string;
   type: string;
   price_per_day: number;
-  status: string;
-  location: string;
+  status: 'available' | 'maintenance' | 'rented';
+  location?: string;
+  image?: string;
 }
 
 export interface ValidationErrorResponse {

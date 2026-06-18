@@ -20,6 +20,8 @@ export interface RentalResponse {
     updated_at: string;
     car?: {
         id: number;
+        title: string;
+        image: string;
         brand: string;
         model: string;
         license_plate: string;

@@ -17,6 +17,7 @@ export const AddCarForm: React.FC<AddCarFormProps> = ({ setCurrentPage }) => {
         price_per_day: '',
         status: 'available',
         location: '',
+        image: '',
     });
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -58,6 +59,7 @@ export const AddCarForm: React.FC<AddCarFormProps> = ({ setCurrentPage }) => {
                 price_per_day: '',
                 status: 'available',
                 location: '',
+                image: '',
             });
             setCurrentPage('home');
         } else {
@@ -189,6 +191,25 @@ export const AddCarForm: React.FC<AddCarFormProps> = ({ setCurrentPage }) => {
                             </div>
                         </div>
 
+                        {/* Image URL Input */}
+                        <div className="space-y-2">
+                            <label className="font-label-md text-label-md text-on-surface-variant ml-1" htmlFor="image">URL de l'image (Optionnel)</label>
+                            <div className="relative group border border-white/10 rounded-lg bg-surface-container-low input-focus-glow transition-all">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <span className="material-symbols-outlined text-secondary text-[20px]">image</span>
+                                </div>
+                                <input
+                                    className="w-full bg-transparent border-none outline-none py-4 pl-12 pr-4 text-on-surface placeholder:text-outline/50 focus:ring-0"
+                                    id="image"
+                                    type="url"
+                                    name="image"
+                                    value={formData.image}
+                                    onChange={handleChange}
+                                    placeholder="Ex: https://images.unsplash.com/..."
+                                />
+                            </div>
+                        </div>
+
                         {/* Vehicle Type Dropdown */}
                         <div className="space-y-2">
                             <label className="font-label-md text-label-md text-on-surface-variant ml-1" htmlFor="type">Type de propulsion</label>
@@ -208,6 +229,7 @@ export const AddCarForm: React.FC<AddCarFormProps> = ({ setCurrentPage }) => {
                                     <option value="Electric">Électrique</option>
                                     <option value="SUV">SUV</option>
                                     <option value="Luxury">Luxe</option>
+                                    <option value="Sport">Sport</option>
                                 </select>
                             </div>
                         </div>

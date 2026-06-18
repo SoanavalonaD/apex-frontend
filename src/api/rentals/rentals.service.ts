@@ -7,4 +7,8 @@ export const rentalService = {
             method: 'POST',
             body: JSON.stringify(payload),
         }, token),
+    getAll: (token: string) =>
+        request<RentalResponse[]>('/rentals', {
+            method: 'GET',
+        }, token),
 };
