@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Apex Car Rental - Détails</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .glass-card {
+            background: rgba(30, 32, 37, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-blue {
+            box-shadow: 0px 4px 200px rgba(0, 82, 255, 0.3);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        body {
+            background-color: #0B0B0C;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-fixed-dim": "#4cd6ff",
+                      "primary": "#b7c4ff",
+                      "surface-container-high": "#2a2a2b",
+                      "surface-dim": "#131314",
+                      "secondary": "#a6e6ff",
+                      "on-background": "#e5e2e3",
+                      "on-tertiary": "#3c0090",
+                      "outline-variant": "#434656",
+                      "primary-fixed": "#dde1ff",
+                      "on-tertiary-fixed-variant": "#5700c9",
+                      "outline": "#8d90a2",
+                      "surface": "#131314",
+                      "on-secondary-container": "#00566b",
+                      "on-primary-fixed": "#001452",
+                      "background": "#131314",
+                      "error-container": "#93000a",
+                      "tertiary-fixed": "#e9ddff",
+                      "on-primary-container": "#dfe3ff",
+                      "on-surface": "#e5e2e3",
+                      "surface-container-low": "#1c1b1c",
+                      "on-secondary-fixed": "#001f28",
+                      "on-error": "#690005",
+                      "inverse-on-surface": "#313031",
+                      "primary-container": "#0052ff",
+                      "surface-container": "#201f20",
+                      "tertiary": "#d1bcff",
+                      "error": "#ffb4ab",
+                      "secondary-container": "#14d1ff",
+                      "on-primary-fixed-variant": "#0038b6",
+                      "surface-variant": "#353436",
+                      "inverse-primary": "#004ced",
+                      "on-secondary-fixed-variant": "#004e60",
+                      "tertiary-fixed-dim": "#d1bcff",
+                      "on-primary": "#002682",
+                      "surface-tint": "#b7c4ff",
+                      "surface-container-lowest": "#0e0e0f",
+                      "tertiary-container": "#792eff",
+                      "surface-container-highest": "#353436",
+                      "on-tertiary-container": "#ebdfff",
+                      "secondary-fixed": "#b7eaff",
+                      "on-surface-variant": "#c3c5d9",
+                      "on-error-container": "#ffdad6",
+                      "surface-bright": "#3a393a",
+                      "on-secondary": "#003543",
+                      "primary-fixed-dim": "#b7c4ff",
+                      "inverse-surface": "#e5e2e3",
+                      "on-tertiary-fixed": "#23005b"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "section-gap": "40px",
+                      "gutter": "16px",
+                      "base": "8px",
+                      "container-margin": "24px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Sora"],
+                      "label-md": ["Inter"],
+                      "headline-lg-mobile": ["Sora"],
+                      "headline-xl": ["Sora"],
+                      "headline-lg": ["Sora"]
+              },
+              "fontSize": {
+                      "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                      "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+                      "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                      "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                      "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                      "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                      "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Top AppBar -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-xl bg-surface/80 dark:bg-surface-dim/80 border-b border-outline-variant shadow-sm h-16">
+<div class="flex justify-between items-center px-container-margin h-full w-full max-w-7xl mx-auto">
+<button aria-label="Retour" class="active:scale-95 duration-200 transition-transform p-2 -ml-2">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">Apex Car Rental</h1>
+<div class="flex items-center gap-2">
+<button aria-label="Notifications" class="active:scale-95 duration-200 transition-transform p-2">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-16 pb-32">
+<!-- Hero Section -->
+<section class="relative w-full aspect-[4/3] md:aspect-[21/9] overflow-hidden">
+<img alt="Une berline sportive électrique élégante et performante dans une finition obsidienne profonde garée à l'intérieur d'un showroom high-tech avec des accents d'éclairage bleu électrique néon." class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmeAbo05Vth2JkgAiiGxMWyDsf0_wbexeNChIw312TGRX5SVH2UIjMj2YjGOeX2qzoGS7ag7i2bDKyPIGLCEi1ofiNCgklhnqF9Tt-T2b8WImQ5wqK3HphDPqKV01NxfUaLoZ66X_e1OHyAWiAWgt0rS7CKEbB12emQKaRT6pTaFUs6bczFcfFLXnZIb3RfQWWeSgpbGnVJWcPyF5U6Yl13UZ0lKj8Lrpd390RXvasXTlBW3qMolVckcP7rSR4xs97RB7j02ujIns"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</section>
+<!-- Content Container -->
+<div class="max-w-7xl mx-auto px-container-margin -mt-16 relative z-10">
+<!-- Header Info -->
+<div class="flex flex-col gap-2 mb-gutter">
+<div class="flex items-center gap-2">
+<span class="bg-secondary-container/20 text-secondary-fixed-dim px-3 py-1 rounded-full text-label-sm font-label-sm border border-secondary-fixed-dim/20 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed-dim"></span>
+                        Disponible
+                    </span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Électrique de Luxe</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Tesla Model S Plaid</h2>
+</div>
+<!-- Bento Specs Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-section-gap">
+<div class="glass-card rounded-xl p-4 flex flex-col gap-1 transition-transform hover:scale-[1.02] duration-300">
+<span class="material-symbols-outlined text-secondary-fixed-dim" data-icon="speed" style="font-variation-settings: 'FILL' 1;">speed</span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">Accélération</span>
+<span class="text-on-surface font-headline-md text-headline-md">1.99s</span>
+<span class="text-on-surface-variant text-xs">0-100 km/h</span>
+</div>
+<div class="glass-card rounded-xl p-4 flex flex-col gap-1 transition-transform hover:scale-[1.02] duration-300">
+<span class="material-symbols-outlined text-secondary-fixed-dim" data-icon="electric_car" style="font-variation-settings: 'FILL' 1;">electric_car</span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">Autonomie</span>
+<span class="text-on-surface font-headline-md text-headline-md">637 km</span>
+<span class="text-on-surface-variant text-xs">Est. EPA</span>
+</div>
+<div class="glass-card rounded-xl p-4 flex flex-col gap-1 transition-transform hover:scale-[1.02] duration-300">
+<span class="material-symbols-outlined text-secondary-fixed-dim" data-icon="groups" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">Sièges</span>
+<span class="text-on-surface font-headline-md text-headline-md">5</span>
+<span class="text-on-surface-variant text-xs">Capacité Totale</span>
+</div>
+<div class="glass-card rounded-xl p-4 flex flex-col gap-1 transition-transform hover:scale-[1.02] duration-300">
+<span class="material-symbols-outlined text-secondary-fixed-dim" data-icon="bolt" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="text-on-surface-variant text-label-sm font-label-sm">Vitesse Max</span>
+<span class="text-on-surface font-headline-md text-headline-md">322km/h</span>
+<span class="text-on-surface-variant text-xs">Vitesse de Pointe</span>
+</div>
+</div>
+<!-- Gallery Section -->
+<div class="mb-section-gap">
+<h3 class="font-headline-md text-headline-md mb-4 text-primary">Galerie Média</h3>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory -mx-container-margin px-container-margin">
+<div class="flex-none w-72 md:w-96 aspect-video rounded-xl overflow-hidden snap-start relative group">
+<img alt="Intérieur d'un véhicule électrique de luxe avec un tableau de bord minimaliste gris ardoise." class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxNXttD_KdkmUEl6aq10dqwcYGxVPM6HsdtfoMq0k3De8LgQ0j8kdR7dohTPUPE-XxceCzflao9PgERwlSFx8BipDm3h1-b7Smx1qs5IZUWv6GD_KUiqZ8NJ_ISNlWZQbJ5d0e5u82ipWAmUy3F-kxlTb69UWpK9ivZpTci5AdU2C7iFdOxTzvlv_zoENuK-sl5bATZ8zdfyhlPzBNQArVOVsOEltk0jAELhdN5UWEqgCQd8a1mI-0iE7Kyh59Bk4bSOR_qXPCSLA"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+</div>
+<div class="flex-none w-72 md:w-96 aspect-video rounded-xl overflow-hidden snap-start relative group">
+<img alt="Gros plan du phare LED futuriste d'une voiture de sport noir obsidienne." class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK6wcC8LZX7rP0k5aWSBJqb5HWfEEwcOfI2jikY2mHFhr9IOSfShfoi6o9MaJWYBIO4k1acxaID6KEd9vs_-8oAQcnCUz5VZKqrDjsChiDSSRQPbeKYsDTVyDwlQOqd5RaEspiw3n9so6ZAgqXl1V9HiUIn679teOKz9NpOo68DFMaqtJk6FR_hjpIANdVHPyTGmoEFZLJaDI2RXFxXFvQd4XcT13j0JrSdPdt5426X614HJZDQYonKKSOm0MAcOBzJgdDd-2UJYc"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+</div>
+<div class="flex-none w-72 md:w-96 aspect-video rounded-xl overflow-hidden snap-start relative group">
+<img alt="Vue arrière d'une voiture de luxe moderne montrant la barre de feux arrière horizontale." class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKQsOo0oz_Grhj4UDNtMS3DXnE2975WnhjWOik3uqso9NSXmLcAKB5G1OweKTyMMak1kjOQL3zvhaJ0-N2-rexQ7anTH1Gl2NZ1MLVeh5tscm4n6S66FGWZ4e9cyPVayag4xp1eR6vcaO0BJNnmIdb5nj-ih0bAPnfwH64P-m1umLyG9q-8-IEYUOgtA-BfV3LUIfWu1OV8L7Oj1UEt5nHuuPUeKG0gFJJqEXfETVhu99dUx-02oVV5Iqd4s7behjbw6sjuP73Q5E"/>
+<div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+</div>
+</div>
+</div>
+<!-- Description -->
+<div class="mb-section-gap grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="md:col-span-2">
+<h3 class="font-headline-md text-headline-md mb-4 text-primary">Aperçu</h3>
+<p class="text-on-surface-variant font-body-lg text-body-lg leading-relaxed mb-4">
+                        Découvrez le summum de l'ingénierie automobile avec l'Apex Model S Plaid. Ce n'est pas seulement une voiture ; c'est une machine haute performance conçue pour le cadre moderne qui exige précision et luxe. Avec sa propulsion à trois moteurs et sa gestion logicielle sophistiquée, chaque trajet devient un voyage cinématographique.
+                    </p>
+<p class="text-on-surface-variant font-body-md text-body-md leading-relaxed">
+                        L'intérieur est un sanctuaire de technologie, doté d'un écran cinématographique de 17 pouces, d'un processeur de classe gaming et d'un volant yoke qui offre une vue dégagée sur la route. Que vous naviguiez en ville ou sur l'autoroute, la flotte Apex vous garantit d'arriver avec une efficacité inégalée.
+                    </p>
+</div>
+<div class="glass-card rounded-xl p-6 flex flex-col gap-4 h-fit border-outline-variant/30">
+<h4 class="font-label-md text-label-md text-secondary-fixed-dim uppercase tracking-wider">La Location Inclut</h4>
+<ul class="flex flex-col gap-3">
+<li class="flex items-center gap-3 text-on-surface text-body-md">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                            Assurance Premium
+                        </li>
+<li class="flex items-center gap-3 text-on-surface text-body-md">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                            Assistance Routière 24/7
+                        </li>
+<li class="flex items-center gap-3 text-on-surface text-body-md">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                            Supercharge Incluse
+                        </li>
+<li class="flex items-center gap-3 text-on-surface text-body-md">
+<span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                            Conciergerie Apex
+                        </li>
+</ul>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Booking Footer -->
+<div class="fixed bottom-0 w-full z-50 rounded-t-xl backdrop-blur-xl bg-surface-container/90 dark:bg-surface-container-high/90 border-t border-outline-variant shadow-lg h-24 flex items-center">
+<div class="max-w-7xl mx-auto w-full flex justify-between items-center px-container-margin">
+<div class="flex flex-col">
+<span class="text-on-surface-variant text-label-sm font-label-sm">Total pour 3 jours</span>
+<div class="flex items-baseline gap-1">
+<span class="text-on-surface font-headline-lg text-headline-lg-mobile md:text-headline-lg">2 388 000</span>
+<span class="text-on-surface-variant text-label-sm">MGA</span>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-container px-8 py-4 rounded-full font-label-md text-label-md glow-blue hover:opacity-90 active:scale-95 duration-200 transition-all flex items-center gap-2">
+                Réserver
+                <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<script>
+        const gallery = document.querySelector('.hide-scrollbar');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        gallery.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - gallery.offsetLeft;
+            scrollLeft = gallery.scrollLeft;
+        });
+        gallery.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+        gallery.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+        gallery.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - gallery.offsetLeft;
+            const walk = (x - startX) * 2;
+            gallery.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+</body></html>
