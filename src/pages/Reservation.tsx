@@ -1,6 +1,7 @@
 import type { Page } from '../App';
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import type { Car } from '../features/cars.types'
+import { useCreateRental } from '../api/rentals/hooks/useCreateRental'
 
 export interface Booking {
   id: string;
@@ -17,13 +18,17 @@ interface ReservationProps {
   selectedVehicle?: Car | null;
   setCurrentPage: (page: Page) => void;
   onConfirmBooking?: (booking: Booking) => void;
+  token: string | null;
 }
 
-export default function Reservation({ selectedVehicle, setCurrentPage, onConfirmBooking }: ReservationProps) {
-  const [loading, setLoading] = useState<boolean>(false);
+export default function Reservation({ selectedVehicle, setCurrentPage, onConfirmBooking, token }: ReservationProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [promoCode, setPromoCode] = useState<string>('');
   const [promoApplied, setPromoApplied] = useState<boolean>(false);
+  const startDateRef = useRef<HTMLInputElement>(null);
+  const endDateRef = useRef<HTMLInputElement>(null);
+
+  const { createRental, loading } = useCreateRental();
 
   const defaultVehicle: Car = {
     id: 'porsche-taycan',
@@ -36,7 +41,12 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
     seats: '4 Sièges',
     baggage: '2 Bagages',
     accel: '0-100 en 2.6s',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBZ3ZuYfz-eWYFdGEhHYjxKMDjC-huOC8EUOpcND1MrOQLx5H-OynyYP6eFoRdWclghDG9JsGwifPxAUxNp-khJS45x1i_CwyaVZMtbAs7S68z8lLqZBwlJj69LjjL46kTB5_VjCivgammb9GVIUUOM8AdJg8evJNOxIxi5OeYAlrbQczpw-rgzbpT0qhUFCOLPm1oQgDQsmQ0RmxKVH06-rlRgFFY_JWlIGjXU98T_uLyGUbvu4vDFdXmu8JdxYG0udoyfwpLKmz8'
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBZ3ZuYfz-eWYFdGEhHYjxKMDjC-huOC8EUOpcND1MrOQLx5H-OynyYP6eFoRdWclghDG9JsGwifPxAUxNp-khJS45x1i_CwyaVZMtbAs7S68z8lLqZBwlJj69LjjL46kTB5_VjCivgammb9GVIUUOM8AdJg8evJNOxIxi5OeYAlrbQczpw-rgzbpT0qhUFCOLPm1oQgDQsmQ0RmxKVH06-rlRgFFY_JWlIGjXU98T_uLyGUbvu4vDFdXmu8JdxYG0udoyfwpLKmz8',
+    description: 'Véhicule électrique haut de gamme alliant performance et luxe.',
+    available: true,
+    status: 'Disponible',
+    statusColor: 'bg-green-500',
+    statusBg: 'bg-primary-container text-on-primary-container',
   };
 
   const vehicle: Car = selectedVehicle
@@ -50,6 +60,9 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
     } as Car
     : defaultVehicle;
 
+  // Extract a numeric car_id from the vehicle's id string (fallback to 1)
+  const carId = parseInt(vehicle.id.replace(/\D/g, ''), 10) || 1;
+
   // Pricing calculations
   const dailyRate = parseInt(vehicle.price.replace(/\s/g, ''), 10);
   const rentalDays = 3;
@@ -62,24 +75,51 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
   const discount = promoApplied ? Math.round(rawSubtotal * 0.1) : 0;
   const totalAmount = rawSubtotal + insurance + serviceFee + envTax - discount;
 
-  const handleConfirm = (): void => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      if (onConfirmBooking) {
-        onConfirmBooking({
-          id: Date.now().toString(),
-          vehicleTitle: vehicle.title,
-          vehicleImage: vehicle.image,
-          dates: "24 oct. - 27 oct. 2026",
-          pickup: "Salon Exécutif Apex (T3 Aéroport)",
-          dropoff: "Centre Apex Centre-ville (7e Ave)",
-          totalAmount: totalAmount.toLocaleString(),
-          status: "Confirmée"
-        });
+  const handleConfirm = async (): Promise<void> => {
+    if (!token) {
+      alert('Veuillez vous connecter pour effectuer une réservation.');
+      setCurrentPage('login');
+      return;
+    }
+
+    // Get dates from the form inputs, fall back to defaults
+    const startDate = startDateRef.current?.value || '2026-10-24T10:00';
+    const endDate = endDateRef.current?.value || '2026-10-27T18:00';
+
+    const result = await createRental({
+      car_id: carId,
+      start_date: startDate,
+      end_date: endDate,
+    }, token);
+
+    if (!result) {
+      // Error is already handled and toasted by the hook
+      return;
+    }
+
+    // Build a Booking object for local state (history page)
+    const formatDate = (raw: string): string => {
+      try {
+        const d = new Date(raw);
+        return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
+      } catch {
+        return raw;
       }
-      setShowModal(true);
-    }, 1500);
+    };
+
+    if (onConfirmBooking) {
+      onConfirmBooking({
+        id: result.id.toString(),
+        vehicleTitle: vehicle.title,
+        vehicleImage: vehicle.image,
+        dates: `${formatDate(startDate)} — ${formatDate(endDate)}`,
+        pickup: "Salon Exécutif Apex (T3 Aéroport)",
+        dropoff: "Centre Apex Centre-ville (7e Ave)",
+        totalAmount: totalAmount.toLocaleString(),
+        status: "Confirmée"
+      });
+    }
+    setShowModal(true);
   };
 
   const applyPromo = (): void => {
@@ -170,6 +210,7 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
                 <div className="flex items-center gap-3 bg-surface-dim/50 p-3 rounded-lg border border-outline-variant">
                   <span className="material-symbols-outlined text-on-surface-variant">schedule</span>
                   <input
+                    ref={startDateRef}
                     className="bg-transparent border-none focus:ring-0 text-on-surface w-full font-label-md outline-none"
                     type="datetime-local"
                     defaultValue="2026-10-24T10:00"
@@ -190,6 +231,7 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
                 <div className="flex items-center gap-3 bg-surface-dim/50 p-3 rounded-lg border border-outline-variant">
                   <span className="material-symbols-outlined text-on-surface-variant">schedule</span>
                   <input
+                    ref={endDateRef}
                     className="bg-transparent border-none focus:ring-0 text-on-surface w-full font-label-md outline-none"
                     type="datetime-local"
                     defaultValue="2026-10-27T18:00"

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Page } from '../App';
 import type { Car } from '../features/cars.types'
+import { useCars } from '../api/cars/hooks/useCars'
 
 interface AccueilProps {
   setCurrentPage: (page: Page) => void;
@@ -8,6 +9,7 @@ interface AccueilProps {
 }
 
 export default function Accueil({ setCurrentPage, setSelectedVehicle }: AccueilProps) {
+  const { cars, loading } = useCars();
   const [pickup, setPickup] = useState('');
   const [dates, setDates] = useState('');
 
@@ -19,46 +21,10 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle }: AccueilP
     { id: 'convertible', label: 'Cabriolet', icon: 'sunny' }
   ];
 
-  const featuredVehicles = [
-    {
-      id: 'porsche-911',
-      title: 'Porsche 911 Carrera',
-      type: 'Sport',
-      transmission: 'Automatique',
-      seats: '2 Places',
-      rating: '4.9',
-      price: '1 200 000',
-      available: true,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDeESKpuVFi_GNUGvMEc3PN7-0JMJ-RJLa_3umQ8IJ4bksCnDNKMGVHztT-p8VwNU5i_GLbVRFTuTPgmCz6vAO4dptYEBIUnoyFimsWIrdNHFZSchScY2OwF8TS4oUnU-8Lrs6HLzPy8VoOaFWBalZIMAETz8eixdqmju6gXbdPO8uR21qpGcZ55WLsF7CXVVsS2KFRhnw8w1tc8AMi2U-Ra-Chiuqndku1oyZ5n9WDoNbWESdt2AYV8X6tAKKhYYUapwonAimBWSs',
-      description: 'Sportive emblématique offrant une puissance pure et une maniabilité de précision.'
-    },
-    {
-      id: 'bmw-i8',
-      title: 'BMW i8 Roadster',
-      type: 'Électrique',
-      transmission: 'Automatique',
-      seats: '2 Places',
-      rating: '4.8',
-      price: '980 000',
-      available: true,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDRdmArJ48fmu6prwKzvQWkyDlujVb04dQK3H6qyNAJYriyGWShSRJK9N7e4zFQaFshH_wcAtzHguIFOBvdux82BimfwuvoUdSqE0jBUWGokd7_GsFPCt3UT7e_XCYKA-qSqiYfa9cVk8hzgNFn20gDV-kyv6Zah7V1j24eLpauYzJ5oWSslLtiZ04xY-CBmLudj23Qrk0zR8p-7T8wWtvPrYXNC9LmHbou3BdW5v6WWJG8ZC2tgRQOzJ1plZjr-t0hpUTRJUqyttM',
-      description: 'Luxe hybride rechargeable futuriste avec des portes papillon emblématiques.'
-    },
-    {
-      id: 'range-rover',
-      title: 'Range Rover Sport',
-      type: 'SUV',
-      transmission: 'Automatique',
-      seats: '5 Places',
-      rating: '5.0',
-      price: '720 000',
-      available: false,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD8QjWbWdv4K2CEE_KuRUUn0oxLhKrAjRzzO9xH0uS5byIZIUC-mcc87EjH4YvbJG-IKTFlbKMDyTLfKxDD2M6wxWOx0eBzA7mTg_9oIo0lAKXkiv_KOZSgmCzl7wpxuFZ6qXFReo8QlMHOihsO_C6KDgxuH5A1PcTmL8N_P_YKUmIbSxlP27fvmzEvW7nsDcjZXza0GpR0yihRoSm-4qIrOD_G6De8U8IE9pVWFRrStV6I76PodUNDf9CdljfNrCkIFGM3BYhZULE',
-      description: 'Le summum du luxe tout-terrain alliant puissance et raffinement de cabine.'
-    }
-  ];
+  const featuredVehicles = (cars ?? []).slice(0, 3);
+  console.log("Featured Vehicles to render:", featuredVehicles);
 
-  const handleBook = (car: any) => {
+  const handleBook = (car: Car) => {
     setSelectedVehicle(car);
     setCurrentPage('reservation');
   };
@@ -158,74 +124,83 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle }: AccueilP
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredVehicles.map((car) => (
-            <div
-              key={car.id}
-              onClick={() => {
-                if (car.available) {
-                  setSelectedVehicle(car);
-                  setCurrentPage('details');
-                }
-              }}
-              className="glass-card rounded-2xl overflow-hidden group cursor-pointer transition-all hover:-translate-y-2"
-            >
-              <div className="relative aspect-[16/9] overflow-hidden">
-                <img
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  alt={car.title}
-                  src={car.image}
-                />
-                <div className="absolute top-4 left-4">
-                  {car.available ? (
-                    <span className="bg-primary-container/20 backdrop-blur-md border border-primary/30 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                      Disponible
-                    </span>
-                  ) : (
-                    <span className="bg-error-container/20 backdrop-blur-md border border-error/30 text-error px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
-                      Loué
-                    </span>
-                  )}
+        {loading ? (
+          <div className="flex justify-center py-16">
+            <svg className="animate-spin h-10 w-10 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredVehicles.map((car) => (
+              <div
+                key={car.id}
+                onClick={() => {
+                  if (car.available) {
+                    setSelectedVehicle(car);
+                    setCurrentPage('details');
+                  }
+                }}
+                className="glass-card rounded-2xl overflow-hidden group cursor-pointer transition-all hover:-translate-y-2"
+              >
+                <div className="relative aspect-[16/9] overflow-hidden">
+                  <img
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    alt={car.title}
+                    src={car.image}
+                  />
+                  <div className="absolute top-4 left-4">
+                    {car.available ? (
+                      <span className="bg-primary-container/20 backdrop-blur-md border border-primary/30 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                        Disponible
+                      </span>
+                    ) : (
+                      <span className="bg-error-container/20 backdrop-blur-md border border-error/30 text-error px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
+                        Loué
+                      </span>
+                    )}
+                  </div>
+                  <div className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-[#0B0B0C] to-transparent"></div>
                 </div>
-                <div className="absolute bottom-0 inset-x-0 h-1/2 bg-gradient-to-t from-[#0B0B0C] to-transparent"></div>
+                <div className="p-6 relative -mt-8">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h4 className="font-headline-md text-headline-md text-white">{car.title}</h4>
+                      <p className="text-on-surface-variant font-label-md text-label-md">
+                        {car.type} • {car.transmission} • {car.seats}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1 text-primary">
+                      <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                      <span className="font-label-md text-label-md">{car.rating}</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/5" onClick={(e) => e.stopPropagation()}>
+                    <div>
+                      <span className="text-primary font-headline-md text-headline-md">{car.price} MGA</span>
+                      <span className="text-on-surface-variant font-label-sm text-label-sm">/ jour</span>
+                    </div>
+                    {car.available ? (
+                      <button
+                        onClick={() => handleBook(car)}
+                        className="bg-primary text-on-primary px-5 py-2 rounded-lg font-label-md text-label-md hover:bg-white transition-colors"
+                      >
+                        Réserver
+                      </button>
+                    ) : (
+                      <button className="bg-outline-variant/30 text-on-surface-variant px-5 py-2 rounded-lg font-label-md text-label-md cursor-not-allowed">
+                        Liste d'attente
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
-              <div className="p-6 relative -mt-8">
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <h4 className="font-headline-md text-headline-md text-white">{car.title}</h4>
-                    <p className="text-on-surface-variant font-label-md text-label-md">
-                      {car.type} • {car.transmission} • {car.seats}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-1 text-primary">
-                    <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                    <span className="font-label-md text-label-md">{car.rating}</span>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center mt-6 pt-4 border-t border-white/5" onClick={(e) => e.stopPropagation()}>
-                  <div>
-                    <span className="text-primary font-headline-md text-headline-md">{car.price} MGA</span>
-                    <span className="text-on-surface-variant font-label-sm text-label-sm">/ jour</span>
-                  </div>
-                  {car.available ? (
-                    <button
-                      onClick={() => handleBook(car)}
-                      className="bg-primary text-on-primary px-5 py-2 rounded-lg font-label-md text-label-md hover:bg-white transition-colors"
-                    >
-                      Réserver
-                    </button>
-                  ) : (
-                    <button className="bg-outline-variant/30 text-on-surface-variant px-5 py-2 rounded-lg font-label-md text-label-md cursor-not-allowed">
-                      Liste d'attente
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Exclusive Offer Banner */}
@@ -234,7 +209,7 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle }: AccueilP
           <div className="absolute top-0 right-0 w-1/2 h-full opacity-30 pointer-events-none"></div>
           <div className="relative z-10 max-w-lg">
             <span className="text-secondary font-label-md text-label-md tracking-widest uppercase mb-4 block">Exclusivité Limitée</span>
-            <h2 className="font-headline-xl text-headline-xl mb-4 leading-tight">Rejoignez Apex Priority &amp; Économisez 20%</h2>
+            <h2 className="font-headline-xl text-headline-xl mb-4 leading-tight">Rejoignez Apex Priority & Économisez 20%</h2>
             <p className="text-on-surface-variant font-body-lg text-body-lg mb-8">
               Accédez à des annonces privées, évitez les files d'attente lors de la prise en charge et bénéficiez d'un nettoyage complet offert pour chaque location.
             </p>

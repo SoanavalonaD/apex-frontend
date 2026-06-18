@@ -28,8 +28,8 @@ export function useLogin(onSuccess: (token: string, user: User) => void): UseLog
         }
 
         const successData = data as AuthResponse;
-        localStorage.setItem('token', successData.token);
-        localStorage.setItem('user', JSON.stringify(successData.user));
+        localStorage.setItem('apex_token', successData.token);
+        localStorage.setItem('apex_user', JSON.stringify(successData.user));
         onSuccess(successData.token, successData.user);
         toast.success('Connexion réussie.');
         setLoading(false);
