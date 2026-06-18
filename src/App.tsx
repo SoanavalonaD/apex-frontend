@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Navbar from './components/Navbar';
 import BottomNav from './components/BottomNav';
 import Accueil from './pages/Accueil';
@@ -9,6 +9,8 @@ import DesignSystemPlayground from './pages/DesignSystemPlayground';
 import Connexion from './pages/Connexion';
 import CreationCompte from './pages/CreationCompte';
 import HistoriqueReservations from './pages/HistoriqueReservations';
+import { authService } from './api/auth/auth.service';
+import type { User } from './api/auth/auth.types';
 import type { Car } from './features/cars.types'
 import type { Booking } from './pages/Reservation'
 
@@ -28,19 +30,34 @@ function App() {
   const [token, setToken] = useState<string | null>(
     localStorage.getItem('apex_token')
   );
+  const [, setUser] = useState<User | null>(
+    JSON.parse(localStorage.getItem('apex_user') ?? 'null')
+  );
   const [reservations, setReservations] = useState<Booking[]>(
     JSON.parse(localStorage.getItem('apex_reservations') || '[]')
   );
 
-  const handleLogin = (newToken: string) => {
+  const handleLogin = (newToken: string, newUser: User) => {
     localStorage.setItem('apex_token', newToken);
+    localStorage.setItem('apex_user', JSON.stringify(newUser));
     setToken(newToken);
+    setUser(newUser);
     setCurrentPage('home');
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const activeToken = token ?? localStorage.getItem('apex_token');
+    if (activeToken) {
+      try {
+        await authService.logout(activeToken);
+      } catch {
+        // Even if the server call fails, we still clear local state
+      }
+    }
     localStorage.removeItem('apex_token');
+    localStorage.removeItem('apex_user');
     setToken(null);
+    setUser(null);
     setCurrentPage('home');
   };
 
@@ -80,6 +97,7 @@ function App() {
             selectedVehicle={selectedVehicle}
             setCurrentPage={setCurrentPage}
             onConfirmBooking={handleConfirmBooking}
+            token={token}
           />
         );
       case 'design':
@@ -87,7 +105,7 @@ function App() {
       case 'login':
         return <Connexion setCurrentPage={setCurrentPage} onLogin={handleLogin} />;
       case 'signup':
-        return <CreationCompte setCurrentPage={setCurrentPage} />;
+        return <CreationCompte setCurrentPage={setCurrentPage} onRegister={handleLogin} />;
       case 'history':
         return (
           <HistoriqueReservations

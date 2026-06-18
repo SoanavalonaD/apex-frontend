@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useRegister } from '../api/auth/hooks/useRegister';
+import type { User } from '../api/auth/auth.types';
 import type { Page } from '../App';
 
 interface CreationCompteProps {
   setCurrentPage: (page: Page) => void;
+  onRegister: (token: string, user: User) => void;
 }
 
-export default function CreationCompte({ setCurrentPage }: CreationCompteProps) {
+export default function CreationCompte({ setCurrentPage, onRegister }: CreationCompteProps) {
   const [fullname, setFullname] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -16,7 +18,7 @@ export default function CreationCompte({ setCurrentPage }: CreationCompteProps) 
   const [cin, setCin] = useState('');
   const [birthDate, setBirthDate] = useState('');
 
-  const { register, loading, error } = useRegister(() => setCurrentPage('login'));
+  const { register, loading } = useRegister(onRegister);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

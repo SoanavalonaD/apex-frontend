@@ -1,19 +1,5 @@
-export interface Car {
-  id: string;
-  title: string;
-  type: string;
-  transmission: string;
-  seats?: string;
-  specs?: string;
-  rating: string;
-  price: string;
-  available?: boolean;
-  disabled?: boolean;
-  status?: string;
-  statusColor?: string;
-  statusBg?: string;
-  image: string;
-  description?: string;
-  baggage?: string;
-  accel?: string;
-}
+/**
+ * Re-export from the canonical cars types under api/cars.
+ * This file exists to avoid breaking existing imports throughout the codebase.
+ */
+export type { CarUI as Car } from '../api/cars/cars.types';
