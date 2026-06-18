@@ -8,6 +8,7 @@ export interface CarApiResponse {
   status: string;
   created_at: string;
   updated_at: string;
+  location: string;
 }
 
 export interface CarUI {
@@ -29,6 +30,7 @@ export interface CarUI {
   accel?: string;
   disabled?: boolean;
   license_plate: string;
+  location: string;
 }
 
 export interface CarCreatePayload {

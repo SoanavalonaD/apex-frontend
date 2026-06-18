@@ -47,6 +47,8 @@ export default function Reservation({ selectedVehicle, setCurrentPage, onConfirm
     status: 'Disponible',
     statusColor: 'bg-green-500',
     statusBg: 'bg-primary-container text-on-primary-container',
+    license_plate: 'AA-0000-BB',
+    location: 'Antananarivo',
   };
 
   const vehicle: Car = selectedVehicle

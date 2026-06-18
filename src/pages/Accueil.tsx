@@ -24,12 +24,13 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
     { id: 'suv', label: 'SUV', icon: 'airport_shuttle' },
     { id: 'sport', label: 'Sport', icon: 'speed', active: true },
     { id: 'electric', label: 'Électrique', icon: 'bolt' },
-    { id: 'luxe', label: 'Luxe', icon: 'diamond' },
-    { id: 'convertible', label: 'Cabriolet', icon: 'sunny' }
+    { id: 'luxe', label: 'Luxe', icon: 'diamond' }
   ];
 
-  const featuredVehicles = (cars ?? []).slice(0, 3);
-  console.log("Featured Vehicles to render:", featuredVehicles);
+  const searchCity = pickup.trim().toLowerCase();
+  const featuredVehicles = searchCity
+    ? (cars ?? []).filter(car => car.location?.toLowerCase().includes(searchCity))
+    : (cars ?? []).slice(0, 3);
 
   const handleBook = (car: CarUI) => {
     setSelectedVehicle(car);
@@ -95,7 +96,7 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
                   value={pickup}
                   onChange={(e) => setPickup(e.target.value)}
                   className="w-full bg-surface-container-low border-b-2 border-outline-variant focus:border-primary-container outline-none py-3 pl-12 pr-4 transition-all text-on-surface"
-                  placeholder="Dubai Marina, Émirats Arabes Unis"
+                  placeholder="Antananarivo, Madagascar"
                 />
               </div>
             </div>
@@ -106,7 +107,8 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-secondary">calendar_month</span>
                 <input
-                  type="text"
+                  type="datetime-local"
+                  defaultValue="2026-10-27T18:00"
                   value={dates}
                   onChange={(e) => setDates(e.target.value)}
                   className="w-full bg-surface-container-low border-b-2 border-outline-variant focus:border-primary-container outline-none py-3 pl-12 pr-4 transition-all text-on-surface"
@@ -115,7 +117,9 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
               </div>
             </div>
             <button
-              onClick={() => setCurrentPage('search')}
+              onClick={() => {
+                document.getElementById('featured-rentals')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="bg-primary-container text-white px-10 py-3 rounded-lg font-headline-md text-headline-md electric-glow transition-all active:scale-95 self-end md:h-[54px]"
             >
               Rechercher
@@ -151,7 +155,7 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
       </section>
 
       {/* Featured Rentals Grid */}
-      <section className="mb-section-gap">
+      <section id="featured-rentals" className="mb-section-gap pt-10">
         <div className="flex justify-between items-end mb-8">
           <div>
             <h3 className="font-headline-lg text-headline-lg">Locations Vedettes</h3>
@@ -233,6 +237,10 @@ export default function Accueil({ setCurrentPage, setSelectedVehicle, isAdmin = 
                       <h4 className="font-headline-md text-headline-md text-white">{car.title}</h4>
                       <p className="text-on-surface-variant font-label-md text-label-md">
                         {car.type} • {car.transmission} • {car.seats}
+                      </p>
+                      <p className="text-primary font-label-sm flex items-center gap-1 mt-1">
+                        <span className="material-symbols-outlined text-[14px]">location_on</span>
+                        {car.location}
                       </p>
                     </div>
                     <div className="flex items-center gap-1 text-primary">

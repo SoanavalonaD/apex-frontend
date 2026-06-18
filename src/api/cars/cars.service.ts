@@ -75,6 +75,7 @@ function augmentCar(apiCar: CarApiResponse): CarUI {
       : 'bg-surface-container-highest text-on-surface-variant',
     disabled: !isAvailable,
     license_plate: apiCar.license_plate,
+    location: apiCar.location || 'Antananarivo',
   };
 }
 

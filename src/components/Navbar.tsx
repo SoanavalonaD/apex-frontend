@@ -70,7 +70,13 @@ export default function Navbar({ currentPage, setCurrentPage, token, handleLogou
                 </button>
               )}
               {user?.role === 'admin' && (
-                <button onClick={() => setCurrentPage('addcar')} className="text-primary font-bold">
+                <button
+                  onClick={() => setCurrentPage('addcar')}
+                  className={`font-label-md transition-colors ${currentPage === 'addcar'
+                    ? 'text-primary dark:text-primary-fixed'
+                    : 'text-on-surface-variant hover:text-white'
+                    }`}
+                >
                   Ajouter un Véhicule
                 </button>
               )}
